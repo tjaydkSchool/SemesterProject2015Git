@@ -12,10 +12,11 @@ package exceptions;
 public class LoginFailedException extends Exception {
 
     /**
-     * Creates a new instance of <code>LoginFailedException</code> without
-     * detail message.
+     * Creates a new instance of <code>LoginFailedException</code> with
+     * the detail message: "Username or Password is incorrect".
      */
     public LoginFailedException() {
+        super("Username or Password is incorrect");
     }
 
     /**

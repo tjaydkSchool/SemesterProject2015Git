@@ -7,7 +7,6 @@ package exceptions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -17,10 +16,10 @@ import javax.ws.rs.ext.Provider;
 
 /**
  *
- * @author Dennis
+ * @author Ebbe
  */
 @Provider
-public class LoginFailedExceptionMapper implements ExceptionMapper<LoginFailedException> {
+public class AllExceptionMapper implements ExceptionMapper<Throwable> {
 
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -28,10 +27,11 @@ public class LoginFailedExceptionMapper implements ExceptionMapper<LoginFailedEx
     ServletContext context;
 
     @Override
-    public Response toResponse(LoginFailedException e) {
+    public Response toResponse(Throwable e) {
         boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
-        ErrorMessage em = new ErrorMessage(e, Response.Status.NOT_FOUND.getStatusCode(), isDebug);
-        return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        ErrorMessage em = new ErrorMessage(e, Response.Status.INTERNAL_SERVER_ERROR.getStatusCode(), isDebug);
+        em.setMessage("Internal server Error, we are very sorry for the inconvenience");
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
 
     }
 

@@ -7,8 +7,8 @@ package exceptions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import javax.servlet.ServletContext;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,10 +17,11 @@ import javax.ws.rs.ext.Provider;
 
 /**
  *
- * @author Dennis
+ * @author Ebbe
  */
+
 @Provider
-public class LoginFailedExceptionMapper implements ExceptionMapper<LoginFailedException> {
+public class NotFoundExceptionMapper implements ExceptionMapper<NotFoundException> {
 
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -28,11 +29,11 @@ public class LoginFailedExceptionMapper implements ExceptionMapper<LoginFailedEx
     ServletContext context;
 
     @Override
-    public Response toResponse(LoginFailedException e) {
-        boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
+    public Response toResponse(NotFoundException e) {
+        boolean isDebug = context.getInitParameter("debug").equals("true");
         ErrorMessage em = new ErrorMessage(e, Response.Status.NOT_FOUND.getStatusCode(), isDebug);
+        em.setMessage("The page you requested does not exist");
         return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
-
     }
 
 }

@@ -5,9 +5,6 @@
  */
 package facades;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -36,13 +33,11 @@ import javax.persistence.Query;
  */
 public class SearchFacade {
 
-    private Gson gson = new GsonBuilder().setPrettyPrinting().setFieldNamingPolicy(FieldNamingPolicy.IDENTITY).create();
     private final static List<Future<JsonObject>> futures = new ArrayList();
     private final static ExecutorService threadPool = Executors.newFixedThreadPool(4);
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
     private EntityManager em = emf.createEntityManager();
-    
-    
+
     public static void main(String[] args) throws IOException {
         SearchFacade f = new SearchFacade();
         System.out.println(f.getURLs("/api/flightinfo/CPH/2016-01-04T23:00:00.000Z/3").size());
@@ -51,31 +46,10 @@ public class SearchFacade {
     public List<JsonObject> getURLs(String parameters) throws MalformedURLException, IOException {
         List<JsonObject> jsonObjectList = new ArrayList();
         Query query = em.createNamedQuery("URL.findAll");
-        URL url;
-        String jsonStr = "[";
 
         for (int i = 0; i < query.getResultList().size(); i++) {
-
-            String urlString = query.getResultList().get(i).toString() + parameters;
-
-            Future f = threadPool.submit(new getJsonFromUrlTask(urlString));
+            Future f = threadPool.submit(new getJsonFromUrlTask(query.getResultList().get(i).toString() + parameters));
             futures.add(f);
-
-//            url = new URL(query.getResultList().get(0).toString() + parameters);
-//            
-//            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-//            con.setRequestMethod("GET");
-//            con.setRequestProperty("Accept", "application/json;charset=UTF-8");
-//            Scanner scan = new Scanner(con.getInputStream());
-//
-//            while (scan.hasNext()) {
-//                jsonStr += scan.nextLine();
-//            }
-//            
-//            scan.close();
-//            if (i != query.getResultList().size() -1) {
-//                jsonStr += ",";
-//            }
         }
 
         System.out.println("Now all tasks are submittet");
@@ -83,14 +57,13 @@ public class SearchFacade {
             try {
                 jsonObjectList.add(future.get()); //get() metoden på en future er et blokkerende kald der afventer afslutningen af call metoden i den Callable der blev submittet til thread poolen.
             } catch (InterruptedException ex) {
-                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             } catch (ExecutionException ex) {
-                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             }
         }
         System.out.printf("Now all tasks have completed. The size of the jsonObjectList is", jsonObjectList.size());
         threadPool.shutdown(); //Without this the jvm will continue to run.
-//        jsonStr += "]";
         return jsonObjectList;
     }
 
@@ -107,21 +80,31 @@ public class SearchFacade {
             JsonObject jo = null;
             String jsonStr = "";
 
-            URL url = new URL(parameters);
+            try {
+                URL url = new URL(parameters);
 
-            HttpURLConnection con = (HttpURLConnection) url.openConnection();
-            con.setRequestMethod("GET");
-            con.setRequestProperty("Accept", "application/json;charset=UTF-8");
-            Scanner scan = new Scanner(con.getInputStream());
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setRequestProperty("Accept", "application/json;charset=UTF-8");
+                con.setConnectTimeout(5000); // TIMEOUT AFTER 5 SECONDS
 
-            while (scan.hasNext()) {
-                jsonStr += scan.nextLine();
+                Scanner scan = new Scanner(con.getInputStream());
+
+                while (scan.hasNext()) {
+                    jsonStr += scan.nextLine();
+                }
+                scan.close();
+
+                JsonElement je = new JsonParser().parse(jsonStr);
+                jo = je.getAsJsonObject();
+                con.disconnect();
+                
+            } catch (java.net.SocketTimeoutException e) {
+                System.out.println("Connection timed out"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+            } catch (java.io.IOException e) {
+                System.out.println("Input/Output error"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             }
-            scan.close();
 
-            JsonElement je = new JsonParser().parse(jsonStr);
-            jo = je.getAsJsonObject();
-            
             return jo;
         }
 
