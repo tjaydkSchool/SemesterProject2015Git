@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import static utils.LoggerHandler.log;
 
 /**
  *
@@ -62,7 +63,6 @@ public class SearchFacade {
                 Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             }
         }
-        System.out.printf("Now all tasks have completed. The size of the jsonObjectList is", jsonObjectList.size());
         threadPool.shutdown(); //Without this the jvm will continue to run.
         return jsonObjectList;
     }
@@ -101,6 +101,7 @@ public class SearchFacade {
                 
             } catch (java.net.SocketTimeoutException e) {
                 System.out.println("Connection timed out"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+                log.info("Connection timed out on url: " + parameters);
             } catch (java.io.IOException e) {
                 System.out.println("Input/Output error"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             }
