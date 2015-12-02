@@ -1,0 +1,7 @@
+DROP TABLE IF EXISTS URL;
+CREATE TABLE URL (
+URL VARCHAR(50),
+PRIMARY KEY (URL)
+);
+
+INSERT INTO URL(URL) VALUES('http://angularairline-plaul.rhcloud.com');
