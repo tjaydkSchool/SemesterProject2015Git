@@ -26,7 +26,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import static utils.LoggerHandler.log;
 
 /**
  *
@@ -101,7 +100,7 @@ public class SearchFacade {
                 
             } catch (java.net.SocketTimeoutException e) {
                 System.out.println("Connection timed out"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
-                log.info("Connection timed out on url: " + parameters);
+//                log.info("Connection timed out on url: " + parameters);
             } catch (java.io.IOException e) {
                 System.out.println("Input/Output error"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             }
