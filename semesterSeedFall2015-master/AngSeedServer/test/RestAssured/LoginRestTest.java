@@ -13,6 +13,7 @@ import com.jayway.restassured.parsing.Parser;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import static org.hamcrest.Matchers.equalTo;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,11 +23,11 @@ import rest.ApplicationConfig;
  *
  * @author Ebbe
  */
-public class SearchRestTest {
+public class LoginRestTest {
 
     static Server server;
 
-    public SearchRestTest() {
+    public LoginRestTest() {
         baseURI = "http://localhost:8082";
         defaultParser = Parser.JSON;
         basePath = "/api";
@@ -52,52 +53,54 @@ public class SearchRestTest {
     }
 
     @Test
-    public void testSearchOriginDateTickets() {
+    public void Login() {
+        //Successful login
         given().
                 contentType("application/json").
+                body("{'username':'user','password':'test'}").
                 when().
-                get("/flightinfo/CPH/2016-01-04T23:00:00.000Z/3").
+                post("/login").
                 then().
                 statusCode(200);
+
     }
 
     @Test
-    public void testSearchOriginDateTicketsParameterMissing() {
+    public void LoginWrongUsername() {
         given().
                 contentType("application/json").
+                body("{'username':'notUsername','password':'test'}").
                 when().
-                get("/flightinfo/CPH/3").
+                post("/login").
                 then().
-                statusCode(404);
+                statusCode(401).
+                body("error.message", equalTo("Ilegal username or password"));
     }
 
     @Test
-    public void testSearchOriginDateTicketsWrongParameter() {
+    public void LoginWrongPassword() {
+        //wrong username and password
         given().
                 contentType("application/json").
+                body("{'username':'user','password':'notPassword'}").
                 when().
-                get("/flightinfo/NOTANAIRPORT/2016-01-04T23:00:00.000Z/3").
+                post("/login").
                 then().
-                statusCode(500);
+                statusCode(401).
+                body("error.message", equalTo("Ilegal username or password"));
     }
 
     @Test
-    public void testSearchOriginDestinationDateTickets() {
+    public void LoginWrongUsernameAndPassword() {
+        //wrong username and password
         given().
                 contentType("application/json").
+                body("{'username':'notUsername','password':'notPassword'}").
                 when().
-                get("/flightinfo/CPH/STN/2016-01-04T23:00:00.000Z/3").
+                post("/login").
                 then().
-                statusCode(200);
-    }
+                statusCode(401).
+                body("error.message", equalTo("Ilegal username or password"));
 
-    @Test
-    public void testSearchOriginDestinationDateTicketsWrongParameter() {
-        given().
-                contentType("application/json").
-                when().
-                get("/flightinfo/NOTANAIRPORT/STN/2016-01-04T23:00:00.000Z/3").
-                then().
-                statusCode(500);
     }
 }
