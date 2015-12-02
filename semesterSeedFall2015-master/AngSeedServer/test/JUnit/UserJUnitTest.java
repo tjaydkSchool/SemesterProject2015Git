@@ -50,7 +50,7 @@ public class UserJUnitTest {
         assertTrue(uf.getUserByUserId("testuser").getRoles().contains("Test"));
         
 //        DELETE USER
-        uf.deleteUser(user);
+        uf.deleteUser(user.getUsername());
         assertNull(uf.getUserByUserId("testuser"));
     }
     
@@ -64,7 +64,7 @@ public class UserJUnitTest {
         
         assertTrue(uf.getUserByUserId("test").getRoles().contains("User"));
         
-        uf.deleteUser(user);
+        uf.deleteUser(user.getUsername());
     }
     
 //    AUTHENTICATE PASSWORD
@@ -77,7 +77,7 @@ public class UserJUnitTest {
         
         assertTrue(PasswordHash.validatePassword("pass", uf.getUserByUserId("test").getPassword()));
         
-        uf.deleteUser(user);
+        uf.deleteUser(user.getUsername());
     }
     
 }

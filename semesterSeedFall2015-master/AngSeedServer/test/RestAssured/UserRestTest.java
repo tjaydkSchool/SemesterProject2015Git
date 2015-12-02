@@ -10,6 +10,7 @@ import static com.jayway.restassured.RestAssured.baseURI;
 import static com.jayway.restassured.RestAssured.defaultParser;
 import static com.jayway.restassured.RestAssured.given;
 import com.jayway.restassured.parsing.Parser;
+import entity.User;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -23,11 +24,11 @@ import rest.ApplicationConfig;
  *
  * @author Ebbe
  */
-public class LoginRestTest {
+public class UserRestTest {
 
     static Server server;
 
-    public LoginRestTest() {
+    public UserRestTest() {
         baseURI = "http://localhost:8082";
         defaultParser = Parser.JSON;
         basePath = "/api";
@@ -57,9 +58,22 @@ public class LoginRestTest {
         //Successful login
         given().
                 contentType("application/json").
-                body("{'username':'user','password':'test'}").
+                body(new User("newUser", "test")).
+                when().
+                post("/user").
+                then().
+                statusCode(200);
+        given().
+                contentType("application/json").
+                body("{'username':'newUser','password':'test'}").
                 when().
                 post("/login").
+                then().
+                statusCode(200);
+        given().
+                contentType("application/json").
+                when().
+                delete("/user/newUser").
                 then().
                 statusCode(200);
 
@@ -103,4 +117,29 @@ public class LoginRestTest {
                 body("error.message", equalTo("Ilegal username or password"));
 
     }
+    
+    @Test
+    public void PostPutDeleteUserTest() {
+        given().
+                contentType("application/json").
+                body(new User("newUser", "test")).
+                when().
+                post("/user").
+                then().
+                statusCode(200);
+        given().
+                contentType("application/json").
+                body(new User("newUser", "newPassword")).
+                when().
+                put("/user").
+                then().
+                statusCode(200);
+        given().
+                contentType("application/json").
+                when().
+                delete("/user/newUser").
+                then().
+                statusCode(200);
+    }
+    
 }

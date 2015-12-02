@@ -98,11 +98,11 @@ public class UserFacade {
         }
     }
 
-    public void deleteUser(User user) {
-        User u = em.find(User.class, user.getUsername());
+    public void deleteUser(String username) {
+        User u = em.find(User.class, username);
         if (u != null) {
             em.getTransaction().begin();
-            em.remove(user);
+            em.remove(u);
             em.getTransaction().commit();
         }
     }

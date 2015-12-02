@@ -7,9 +7,12 @@ import entity.User;
 import facades.UserFacade;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -37,6 +40,22 @@ public class UserRestService {
   public String createUser(String user) {
       facade.createUser(gson.fromJson(user, User.class));
       return user;
+  }
+  
+  @PUT
+  @Consumes("application/json")
+  public String updateUser(String user) {
+      facade.updateUser(gson.fromJson(user, User.class));
+      return user;
+  }
+  
+  @DELETE
+  @Path("{username}")
+  @Produces("application/json") 
+  @Consumes("application/json")
+  public String deleteUser(@PathParam("username") String username) {
+      facade.deleteUser(username);
+      return username;
   }
  
 }
