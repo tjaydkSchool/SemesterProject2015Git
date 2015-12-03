@@ -1,6 +1,7 @@
 package facades;
 
 import entity.User;
+import exceptions.UserNotFoundException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -78,10 +79,10 @@ public class UserFacade {
             } catch (InvalidKeySpecException ex) {
                 Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        } 
     }
 
-    public void updateUser(User user) {
+    public void updateUser(User user) throws UserNotFoundException {
         if (em.find(User.class, user.getUsername()) != null) {
             try {
                 if (user.getPassword() != null) {
@@ -96,14 +97,19 @@ public class UserFacade {
                 Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        else {
+            throw new UserNotFoundException("Cannot update the user, as there is no user with the given username");
+        }
     }
 
-    public void deleteUser(String username) {
+    public void deleteUser(String username) throws UserNotFoundException {
         User u = em.find(User.class, username);
         if (u != null) {
             em.getTransaction().begin();
             em.remove(u);
             em.getTransaction().commit();
+        } else {
+            throw new UserNotFoundException("Cannot delete the user, as there is no user with the given username");
         }
     }
 
