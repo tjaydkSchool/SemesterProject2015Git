@@ -1,6 +1,7 @@
 angular.module('myLoginModule', [])
-        .controller('myLoginController', [function(){
+        .controller('myLoginController',['$scope','$http', function($scope, $http){
                 var self = this;
+        
         }])
             .directive('loginModule', function(){
                 return {

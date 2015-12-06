@@ -9,7 +9,7 @@ angular.module('mySearchFunctionFromModule', [])
                 self.searchFunctionFrom = function(){
                     $http({
                         type: "GET",
-                        url: "http://localhost:8080/AngSeedServer/api/flightinfo/" + self.destinationFrom + "/" + self.travelDate + "/" + self.numberOfTickets,
+                        url: "/AngSeedServer/api/flightinfo/" + self.destinationFrom + "/" + self.travelDate + "/" + self.numberOfTickets,
                         dataType: "JSON" 
                     }).then(function succesCallback(response){
                         self.flights = response.data;

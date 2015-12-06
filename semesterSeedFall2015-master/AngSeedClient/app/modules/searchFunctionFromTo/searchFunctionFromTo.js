@@ -8,7 +8,7 @@ angular.module('mySearchFunctionFromToModule', [])
                 self.searchFunctionFromTo = function(){
                     $http({
                         type: "GET",
-                        url: "/api/flightinfo/" + self.destinationFrom + "/" + self.destinationTo + "/" + self.travelDate + "/" + self.numberOfTickets
+                        url: "/AngSeedServer/api/flightinfo/" + self.destinationFrom + "/" + self.destinationTo + "/" + self.travelDate + "/" + self.numberOfTickets
                     }).then(function succesCallback(response){
                        self.flights = response.data; 
                     }, function errorCallback(response){

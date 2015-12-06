@@ -5,7 +5,7 @@ angular.module('myApp', [
     'ngRoute',
     'ngAnimate',
     'ui.bootstrap',
-//    'myApp.security',
+    'myApp.security',
     'myApp.view1',
     'myApp.view2',
     'myApp.view3',
@@ -22,12 +22,16 @@ angular.module('myApp', [
         config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/view1', {
                     templateUrl: 'view1/view1.html'
+                })
+                .when('/view2', {
+                    templateUrl: 'view2/view2.html'
                 });
+                
                 $routeProvider.otherwise({redirectTo: '/view1'});
             }]).
         config(function ($httpProvider) {
-//            $httpProvider.interceptors.push('authInterceptor');
-              $httpProvider.defaults.timeout = 20000;
+            $httpProvider.interceptors.push('authInterceptor');
+            $httpProvider.defaults.timeout = 20000;
         });
 
 
