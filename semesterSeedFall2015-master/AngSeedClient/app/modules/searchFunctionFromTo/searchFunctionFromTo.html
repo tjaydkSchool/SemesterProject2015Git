@@ -1,0 +1,22 @@
+<div ng-controller="mySearchFunctionFromToController as ctrl">
+    <form class="cvrSearch col-md-12">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <input type="text" placeholder="From" ng-model="ctrl.destinationFrom"/>
+            <input type="text" placeholder="To" ng-model="ctrl.destinationTo"/>
+            <input type="text" class="unstyled" ng-model="ctrl.travelDate"/>
+            <input type="number" class="unstyled" ng-model="ctrl.numberOfTickets"/>
+        </div>
+        <div class="col-md-3"></div>
+        <div class="col-md-4"></div>
+        <div class="searchButton col-md-4">
+            <button ng-click="ctrl.searchFunctionFromTo()" class="">Search</button>
+        </div>
+        <div class="col-md-4">
+            <ul ng-repeat="flight in ctrl.flights">
+                <li>{{flight.airline}}</li>
+            </ul>
+        </div>
+        
+    </form>
+</div>

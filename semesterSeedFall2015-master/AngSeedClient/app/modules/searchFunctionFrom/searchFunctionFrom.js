@@ -1,5 +1,5 @@
-angular.module('myFrontPageModule', [])
-        .controller('myFrontPageController',['$scope', '$http', function($scope, $http){
+angular.module('mySearchFunctionFromModule', [])
+        .controller('mySearchFunctionFromController',['$scope', '$http', function($scope, $http){
                 var self = this;
         
                 self.flights = [
@@ -18,22 +18,10 @@ angular.module('myFrontPageModule', [])
                     });
                 };
         
-        
-                self.searchFunctionFromTo = function(){
-                    $http({
-                        type: "GET",
-                        url: "/api/flightinfo/" + self.destinationFrom + "/" + self.destinationTo + "/" + self.travelDate + "/" + self.numberOfTickets
-                    }).then(function succesCallback(response){
-                       self.flights = response.data; 
-                    }, function errorCallback(response){
-                        self.flights = "No matches found";
-                    });
-                };
-        
         }])
-            .directive('frontPageModule', function(){
+            .directive('searchFunctionFromModule', function(){
                 return {
-                    templateUrl: "modules/frontpage/frontpage.html",
+                    templateUrl: "modules/searchFunctionFrom/searchFunctionFrom.html",
                     restrict: "EA"
                 };
             });
