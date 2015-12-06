@@ -4,6 +4,7 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.User;
+import exceptions.UserNotFoundException;
 import facades.UserFacade;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -44,7 +45,7 @@ public class UserRestService {
   
   @PUT
   @Consumes("application/json")
-  public String updateUser(String user) {
+  public String updateUser(String user) throws UserNotFoundException {
       facade.updateUser(gson.fromJson(user, User.class));
       return user;
   }
@@ -53,7 +54,7 @@ public class UserRestService {
   @Path("{username}")
   @Produces("application/json") 
   @Consumes("application/json")
-  public String deleteUser(@PathParam("username") String username) {
+  public String deleteUser(@PathParam("username") String username) throws UserNotFoundException {
       facade.deleteUser(username);
       return username;
   }

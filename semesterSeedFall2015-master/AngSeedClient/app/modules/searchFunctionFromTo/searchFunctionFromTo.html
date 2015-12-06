@@ -1,22 +1,41 @@
 <div ng-controller="mySearchFunctionFromToController as ctrl">
-    <form class="cvrSearch col-md-12">
-        <div class="col-md-3"></div>
-        <div class="col-md-6">
-            <input type="text" placeholder="From" ng-model="ctrl.destinationFrom"/>
-            <input type="text" placeholder="To" ng-model="ctrl.destinationTo"/>
-            <input type="text" class="unstyled" ng-model="ctrl.travelDate"/>
-            <input type="number" class="unstyled" ng-model="ctrl.numberOfTickets"/>
-        </div>
-        <div class="col-md-3"></div>
-        <div class="col-md-4"></div>
-        <div class="searchButton col-md-4">
-            <button ng-click="ctrl.searchFunctionFromTo()" class="">Search</button>
-        </div>
-        <div class="col-md-4">
-            <ul ng-repeat="flight in ctrl.flights">
-                <li>{{flight.airline}}</li>
-            </ul>
-        </div>
+    <div class="searchField">
+        <form class="container text-center">
+            <div class="row searchInputFields">
+                <div class="col-md-3 col-sm-6"><input type="text" placeholder="From" ng-model="ctrl.destinationFrom"/></div>
+                <div class="col-md-3 col-sm-6"><input type="text" placeholder="To" ng-model="ctrl.destinationTo"/></div>
+                <div class="col-md-3 col-sm-6"><input type="text" ng-model="ctrl.travelDate"/></div>
+                <div class="col-md-3 col-sm-6"><input type="number" ng-model="ctrl.numberOfTickets"/></div>
+            </div>
+            <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()"><i class="glyphicon glyphicon-search"></i></button>
+        </form>
+    </div>
+
+    <div class="resultList text-center">
+        <h2>Results</h2>
+        <table class="table" style="width: 100%;">
+            <tr ng-repeat="trip in ctrl.trips">
+                <td>{{trip.origin}}</td>
+                <td>{{trip.destination}}</td>
+                <td>{{trip.totalPrice}}</td>
+            </tr>
+        </table>
         
-    </form>
+<!--        <div class="row container">
+            <uib-accordion class="accordionThingy col-md-12" close-others="oneAtATime"  ng-repeat="trip in ctrl.trips">
+                <div class="col-md-3"></div>
+                <uib-accordion-group class="accordionGroup col-md-6" heading="{{trip.flightID}}">
+                    <div class="accordionInformation">
+                        <p>CVR {{pno.pno}}</p>
+                        <p>Address {{pno.address}}</p>
+                        <p>City {{pno.city}}</p>
+                        <p>Zipcode {{pno.zipcode}}</p>
+                        <p>Phone {{pno.phone}}</p>
+                        <p>Email {{pno.email}}</p>
+                    </div>
+                </uib-accordion-group>
+                <div class="col-md-3"></div>
+            </uib-accordion>
+        </div>-->
+    </div>
 </div>

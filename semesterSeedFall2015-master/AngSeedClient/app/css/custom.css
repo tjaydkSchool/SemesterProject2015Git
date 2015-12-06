@@ -1,2 +1,119 @@
+/*BODY CSS*/
+body{
+    background-color: black;
+    color: white;
+}
 
 
+/*CSS FOR NAVBAR*/
+
+.navbar-nav>li>a {
+    transition: 0.3s all ease;
+}
+
+.navbar-nav>li>a:hover {
+    color: #FF5714;
+}
+
+.nav>li>a:focus, .nav>li>a:hover {
+    text-decoration: none;
+    color: #FF5714!important;
+    background-color: #080808!important;
+}
+
+.logo img {
+    height: 50px;
+    margin-top: -15px;
+}
+
+.navbar-inverse {
+    background-color: #222;
+    border-radius: 0px;
+    border-color: #080808;
+    z-index: 100;
+}
+
+
+
+/*CAROUSEL CSS*/
+#main-slider {
+    position: relative;
+    overflow: hidden;
+    margin-top: -30px;
+}
+
+#main-slider .prev {
+    left: 10px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s all ease;
+}
+
+#main-slider .next {
+    right: 10px;
+    cursor: pointer;
+    opacity: 0.5;
+    transition: 0.3s all ease;
+}
+
+
+.carousel {
+    position: relative;
+    height: 500px;
+}
+
+#main-slider .carousel .slide-margin {
+    margin-top: 0px;
+}
+
+.cvrSearch {
+    position: absolute;
+    top: 300px;
+    z-index: 1000;
+}
+
+
+/*SEARCHFIELD CSS*/
+
+.searchField {
+    position: absolute;
+    top: 300px;
+    height: 180px;
+    width: 100%;
+    background-color: rgba(0,0,0,.9);
+    z-index: 1000;
+}
+
+.searchInputFields {
+    margin-top: 60px;
+}
+
+.searchInputFields input {
+    width: 100%;
+    height: 40px;
+    color: black;
+}
+
+.searchButton {
+    margin-top: 10px;
+    height: 50px;
+    width: 50px;
+    border-radius: 90px;
+    padding-left: -1px;
+    transition: 0.3s all ease;
+}
+
+.searchButton:hover {
+    margin-top: 8px;
+    height: 55px;
+    width: 55px;
+    background-color: purple;
+    border-color: transparent;
+}
+
+
+
+/*RESULTS*/
+.results li {
+    list-style-type: none;
+}
