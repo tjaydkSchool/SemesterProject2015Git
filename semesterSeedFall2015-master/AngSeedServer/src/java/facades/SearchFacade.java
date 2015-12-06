@@ -26,6 +26,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import static utils.LoggerHandler.log;
 
 /**
  *
@@ -33,8 +34,7 @@ import javax.persistence.Query;
  */
 public class SearchFacade {
 
-    private final static List<Future<JsonObject>> futures = new ArrayList();
-    private final static ExecutorService threadPool = Executors.newFixedThreadPool(4);
+    
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
     private EntityManager em = emf.createEntityManager();
 
@@ -44,26 +44,72 @@ public class SearchFacade {
     }
 
     public List<JsonObject> getURLs(String parameters) throws MalformedURLException, IOException {
-        List<JsonObject> jsonObjectList = new ArrayList();
-        Query query = em.createNamedQuery("URL.findAll");
+        try {
+            //        List<JsonObject> jsonObjectList = new ArrayList();
+//        Query query = em.createNamedQuery("URL.findAll");
+//
+//        ExecutorService threadPool = Executors.newFixedThreadPool(4);
+//
+//        for (int i = 0; i < query.getResultList().size(); i++) {
+//            Future f = threadPool.submit(new getJsonFromUrlTask(query.getResultList().get(i).toString() + parameters));
+//            futures.add(f);
+//        }
+//
+//        for (Future<JsonObject> future : futures) {
+//            try {
+//                jsonObjectList.add(future.get()); //get() metoden på en future er et blokkerende kald der afventer afslutningen af call metoden i den Callable der blev submittet til thread poolen.
+//            } catch (InterruptedException ex) {
+//                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+//            } catch (ExecutionException ex) {
+//                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+//            }
+//        }
+//        threadPool.shutdown(); //Without this the jvm will continue to run.
+//        return jsonObjectList;
+            
+            getJsonFromUrlTaskManager getList = new getJsonFromUrlTaskManager(parameters);
+            
+            return getList.call();
+        } catch (Exception ex) {
+            Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            return null;
+    }
 
-        for (int i = 0; i < query.getResultList().size(); i++) {
-            Future f = threadPool.submit(new getJsonFromUrlTask(query.getResultList().get(i).toString() + parameters));
-            futures.add(f);
+    public class getJsonFromUrlTaskManager implements Callable<List<JsonObject>> {
+
+        private String parameters;
+
+        public getJsonFromUrlTaskManager(String parameters) {
+            this.parameters = parameters;
         }
 
-        System.out.println("Now all tasks are submittet");
-        for (Future<JsonObject> future : futures) {
-            try {
-                jsonObjectList.add(future.get()); //get() metoden på en future er et blokkerende kald der afventer afslutningen af call metoden i den Callable der blev submittet til thread poolen.
-            } catch (InterruptedException ex) {
-                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
-            } catch (ExecutionException ex) {
-                Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+        @Override
+        public List<JsonObject> call() throws Exception {
+            List<Future<JsonObject>> futures = new ArrayList();
+            List<JsonObject> jsonObjectList = new ArrayList();
+            Query query = em.createNamedQuery("URL.findAll");
+
+            ExecutorService threadPool = Executors.newFixedThreadPool(4);
+
+            for (int i = 0; i < query.getResultList().size(); i++) {
+                Future f = threadPool.submit(new getJsonFromUrlTask(query.getResultList().get(i).toString() + parameters));
+                futures.add(f);
             }
+
+            for (Future<JsonObject> future : futures) {
+                try {
+                    jsonObjectList.add(future.get()); //get() metoden på en future er et blokkerende kald der afventer afslutningen af call metoden i den Callable der blev submittet til thread poolen.
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(SearchFacade.class.getName()).log(Level.SEVERE, null, ex); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
+                }
+            }
+            threadPool.shutdown(); //Without this the jvm will continue to run.
+            return jsonObjectList;
         }
-        threadPool.shutdown(); //Without this the jvm will continue to run.
-        return jsonObjectList;
+
     }
 
     public class getJsonFromUrlTask implements Callable<JsonObject> {
@@ -97,10 +143,10 @@ public class SearchFacade {
                 JsonElement je = new JsonParser().parse(jsonStr);
                 jo = je.getAsJsonObject();
                 con.disconnect();
-                
+
             } catch (java.net.SocketTimeoutException e) {
                 System.out.println("Connection timed out"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
-//                log.info("Connection timed out on url: " + parameters);
+                log.info("Connection timed out on url: " + parameters);
             } catch (java.io.IOException e) {
                 System.out.println("Input/Output error"); // SHOULD BE REPLACED WITH TIMESTAMP ERROR MESSAGE IN LOGFILE
             }
