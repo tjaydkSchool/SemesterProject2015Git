@@ -14,7 +14,8 @@ angular.module('myApp', [
     'myApp.directives',
     'myApp.factories',
     'myApp.services',
-    'myFrontPageModule',
+    'mySearchFunctionFromModule',
+    'mySearchFunctionFromToModule',
     'myLoginModule',
     'mySignUpModule'
 ]).
