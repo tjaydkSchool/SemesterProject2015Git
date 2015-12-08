@@ -20,6 +20,7 @@ import javax.persistence.NamedQuery;
 public class URL implements Serializable{
     @Id
     private String url;
+    private String airlineName;
 
     public URL() {
     }
@@ -34,5 +35,13 @@ public class URL implements Serializable{
 
     public void setUrl(String url) {
         this.url = url;
+    }
+
+    public String getAirlineName() {
+        return airlineName;
+    }
+
+    public void setAirlineName(String airlineName) {
+        this.airlineName = airlineName;
     }
 }
