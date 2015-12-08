@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="tryHardDatePicker.css" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+        <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+    </head>
+    <body ng-app="testApp">
+        <div ng-controller="myTryHardDatePickerController as ctrl">
+            <input type="text" id="datepicker" ng-model="ctrl.datePickedFromPicker" />
+            <button ng-click="ctrl.pickDateFunction()" class="">Submit</button>
+            <p>{{ctrl.datePickedFromPicker}}</p>
+            <p>{{ctrl.datePicked}}</p>
+        </div>
+
+        <script>
+                    $(function() {
+                    $("#datepicker").datepicker();
+                    });
+                    angular.module('testApp', [
+
+                    ]).controller('myTryHardDatePickerController', ['$scope', '$http', function($scope, $http){
+            var self = this;
+                    self.datePickedFromPicker = new Date();
+                    var dateP = new Date();
+//                    self.datePickedTry = function(){
+//                    self.date = new Date(self.datePickedFromPicker);
+//                            var year = self.date.getFullYear();
+//                            var month = self.date.getMonth();
+//                            var day = self.date.getDate();
+//                            dateP = new Date(year, month, day, 1);
+//                    }
+            self.pickDateFunction = function(){
+            self.date = new Date(self.datePickedFromPicker);
+                    var year = self.date.getFullYear();
+                    var month = self.date.getMonth();
+                    var day = self.date.getDate();
+                    dateP = new Date(year, month, day, 2);
+                    self.datePicked = dateP;
+                    self.datePicked = JSON.stringify(self.datePicked);
+            };
+            }]);
+        </script>
+    </body>
+</html>
