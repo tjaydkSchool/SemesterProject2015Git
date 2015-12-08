@@ -4,23 +4,13 @@
             <div class="row searchInputFields">
                 <div class="col-md-3 col-sm-6"><input type="text" placeholder="From" ng-model="ctrl.destinationFrom"/></div>
                 <div class="col-md-3 col-sm-6"><input type="text" placeholder="To" ng-model="ctrl.destinationTo"/></div>
-                <div class="col-md-3 col-sm-6"><input type="text" ng-model="ctrl.travelDate"/></div>
-                <div class="col-md-3 col-sm-6"><input type="number" ng-model="ctrl.numberOfTickets"/></div>
+                <div class="col-md-3 col-sm-6"><input type="text" placeholder="Date" ng-model="ctrl.travelDate"/></div>
+                <div class="col-md-3 col-sm-6"><input type="number" placeholder="#tickets" ng-model="ctrl.numberOfTickets"/></div>
             </div>
             <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()"><i class="glyphicon glyphicon-search"></i></button>
         </form>
     </div>
 
-    <div class="resultList text-center">
-        <h2>Results</h2>
-        <table class="table" style="width: 100%;">
-            <tr ng-repeat="trip in ctrl.trips">
-                <td>{{trip.origin}}</td>
-                <td>{{trip.destination}}</td>
-                <td>{{trip.totalPrice}}</td>
-            </tr>
-        </table>
-        
 <!--        <div class="row container">
             <uib-accordion class="accordionThingy col-md-12" close-others="oneAtATime"  ng-repeat="trip in ctrl.trips">
                 <div class="col-md-3"></div>

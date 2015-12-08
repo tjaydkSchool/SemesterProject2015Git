@@ -1,4 +1,37 @@
-<!--<search-function-from-module></search-function-from-module>-->
-<search-function-from-to-module></search-function-from-to-module>
-<!--<login-module></login-module> 
+<div class="container">
+    <div class="searchTableFromTo">
+        <search-function-from-to-module></search-function-from-to-module>
+    </div>
+
+    <div class="searchTableFrom">
+        <!--<search-function-from-module></search-function-from-module>-->
+    </div>
+
+    <div class="resultList text-center" hidden>
+        <h2>Results</h2>
+        <table class="table" style="width: 100%;">
+            <tr ng-repeat="trip in ctrl.trips">
+                <td>{{trip.origin}}</td>
+                <td>{{trip.destination}}</td>
+                <td>{{trip.totalPrice}}</td>
+            </tr>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    $("#from").click(function () {
+        angular.element(".searchTableFromTo").css();
+    });
+
+    $("#fromTo").click(function () {
+        $(".searchTable").html("<p>Hello</p>");
+    });
+</script>
+
+
+<!--<search-function-from-module></search-function-from-module>
+
+
 <sign-up-module></sign-up-module>-->

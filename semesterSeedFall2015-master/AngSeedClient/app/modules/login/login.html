@@ -1,13 +1,13 @@
 <div ng-controller="AppLoginCtrl">
     <div class="loginModuleDefault col-md-12">
         <div class="col-md-12">
-            <input type="text" placeholder="Type Username" ng-model="user.username"/>
+            <input type="text" placeholder="Username" ng-model="user.username"/>
         </div>
         <div class="col-md-12">
-            <input type="password" placeholder="Type Password" ng-model="user.password"/>
+            <input type="password" placeholder="Password" ng-model="user.password"/>
         </div>
         <div class="col-md-12">
-            <button type="submit" ng-click="login()">Login</button>
+            <button id="loginSubmitBtn" type="submit" ng-click="login()">Login</button>
         </div>
         <div class="newUser col-md-12">
             <p>Not an user yet? </p><a href='#/view2'>Sign up</a>

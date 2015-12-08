@@ -2,10 +2,23 @@
 body{
     background-color: black;
     color: white;
+    overflow: hidden;
+    font-family: 'Abel', sans-serif;
 }
 
 
 /*CSS FOR NAVBAR*/
+
+.navbar-inverse {
+    margin-top: 40px;
+    margin-left: 40px;
+    margin-right: 40px;
+    background-color: transparent;
+    border-radius: 0px;
+    border-color: #080808;
+    z-index: 100;
+    border: none;
+}
 
 .navbar-nav>li>a {
     transition: 0.3s all ease;
@@ -15,55 +28,34 @@ body{
     color: #FF5714;
 }
 
-.nav>li>a:focus, .nav>li>a:hover {
+.nav>li>a:focus,.nav>li>a:active, .nav>li>a:hover {
     text-decoration: none;
     color: #FF5714!important;
-    background-color: #080808!important;
+    background-color: transparent!important;
 }
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: transparent!important; 
+}
+
 
 .logo img {
-    height: 50px;
-    margin-top: -15px;
-}
-
-.navbar-inverse {
-    background-color: #222;
-    border-radius: 0px;
-    border-color: #080808;
-    z-index: 100;
+    position: absolute;
+    height: 130px;
 }
 
 
 
 /*CAROUSEL CSS*/
-#main-slider {
-    position: relative;
-    overflow: hidden;
-    margin-top: -30px;
-}
 
-#main-slider .prev {
-    left: 10px;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: 0.3s all ease;
-}
-
-#main-slider .next {
-    right: 10px;
-    cursor: pointer;
-    opacity: 0.5;
-    transition: 0.3s all ease;
-}
-
-
-.carousel {
-    position: relative;
-    height: 500px;
-}
-
-#main-slider .carousel .slide-margin {
-    margin-top: 0px;
+#myCarousel {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    border: 30px solid white;
 }
 
 .cvrSearch {
@@ -74,14 +66,32 @@ body{
 
 
 /*SEARCHFIELD CSS*/
-
 .searchField {
     position: absolute;
     top: 300px;
     height: 180px;
-    width: 100%;
-    background-color: rgba(0,0,0,.9);
-    z-index: 1000;
+    /* width: 100%; */
+    background-color: rgba(255, 255, 255, 0.3);
+    z-index: 200;
+    transition: .4s all ease;
+    opacity: 1;
+}
+
+.searchField input {
+    text-align: center;
+    height: 60px;
+    width: 300px;
+    border-radius: 60px;
+    margin: 5px;
+    border: none;
+    padding-left: 10px;
+    color: #333333;
+    font-size: 20px;
+    background-color: rgba(255,255,255,.9);
+}
+
+.searchField input:focus {
+    outline:0;
 }
 
 .searchInputFields {
@@ -111,9 +121,93 @@ body{
     border-color: transparent;
 }
 
+.searchFieldTabs {
+    position: absolute;
+    top: 280px;
+    z-index: 100;
+}
 
 
 /*RESULTS*/
 .results li {
     list-style-type: none;
+}
+
+.ng-scope {
+    text-align: center;
+}
+
+
+.view1Style {
+}
+
+
+/*LOGIN SCREEN CSS*/
+#loginScreen {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    background-color: white;
+    z-index: 0;
+    opacity: 0;
+    transition: 0.8s ease all;
+}
+
+#loginBtn {
+    cursor: pointer;
+}
+
+#closeBtn {
+    position: fixed;
+    top: 40px;
+    right: 60px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #333333;
+}
+
+.loginField {
+    margin-top: 300px;
+}
+
+.loginField input {
+    text-align: center;
+    cursor: pointer;
+    height: 60px;
+    width: 300px;
+    border-radius: 60px;
+    margin: 5px;
+    border: none;
+    padding-left: 10px;
+    color: black;
+    font-size: 28px;
+}
+
+.loginField input:focus {
+    outline:0;
+}
+
+#loginSubmitBtn {
+    color: black;
+    height: 40px;
+    border-radius: 90px;
+    background-color: white;
+    border: none;
+}
+
+::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+    color:    rgba(0,0,0,.8);
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+   color:    black;
+   opacity:  .8;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+   color:    black;
+   opacity:  .8;
+}
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+   color:    rgba(0,0,0,.8);
 }
