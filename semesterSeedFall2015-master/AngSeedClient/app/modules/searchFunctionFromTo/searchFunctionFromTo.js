@@ -1,17 +1,27 @@
 angular.module('mySearchFunctionFromToModule', [])
         .controller('mySearchFunctionFromToController', ['$scope', '$http', function ($scope, $http) {
+                $("#datepicker").datepicker();
                 var self = this;
-
                 self.flightlist = [];
-
-//                alert(self.flightlist[0].flights.length);
-//                alert(self.flightlist.flights[0].flightID);
-
                 self.trips = [];
+                self.datePickedFromPicker = new Date();
+                
                 self.searchFunctionFromTo = function () {
+                    alert(self.datePickedFromPicker);
+
+//                    FORMAT THE DATE
+                    self.date = new Date(self.datePickedFromPicker);
+                    var year = self.date.getFullYear();
+                    var month = self.date.getMonth();
+                    var day = self.date.getDate();
+                    self.dateP = new Date(year, month, day, 2);
+                    
+                    
+//                    end of the date
+
                     $http({
                         type: "GET",
-                        url: "/AngSeedServer/api/flightinfo/" + self.destinationFrom + "/" + self.destinationTo + "/" + self.travelDate + "/" + self.numberOfTickets
+                        url: "/AngSeedServer/api/flightinfo/" + self.destinationFrom + "/" + self.destinationTo + "/" + self.dateP.toISOString() + "/" + self.numberOfTickets
                     }).then(function succesCallback(response) {
                         self.trips = [];
                         self.flightlist = response.data;
@@ -20,7 +30,7 @@ angular.module('mySearchFunctionFromToModule', [])
                                 self.trips.push(self.flightlist[i].flights[j]);
                             }
                         }
-                        if(self.trips.length === 0) {
+                        if (self.trips.length === 0) {
                             alert("NO RESULTS");
                         }
                     }, function errorCallback(response) {

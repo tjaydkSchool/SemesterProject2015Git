@@ -66,15 +66,24 @@ body{
 
 
 /*SEARCHFIELD CSS*/
-.searchField {
+.searchFieldWrapper{
     position: absolute;
-    top: 300px;
+    display: table;
+    text-align: center;
+    top: 0px;
+    left: 0px;
+    height: 100%;
+    width: 100%;
+    z-index: 10;
+}
+
+.searchField {
+    display: table-cell;
+    vertical-align: middle;
     height: 180px;
-    /* width: 100%; */
-    background-color: rgba(255, 255, 255, 0.3);
     z-index: 200;
-    transition: .4s all ease;
     opacity: 1;
+    transition: .4s all ease;
 }
 
 .searchField input {
@@ -176,7 +185,7 @@ body{
     text-align: center;
     cursor: pointer;
     height: 60px;
-    width: 300px;
+    max-width: 300px;
     border-radius: 60px;
     margin: 5px;
     border: none;
