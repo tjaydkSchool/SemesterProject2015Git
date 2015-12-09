@@ -7,13 +7,17 @@ package facades;
 
 import entity.Passengers;
 import entity.Reservation;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -29,31 +33,43 @@ public class ReservationFacade {
     private EntityManager em = emf.createEntityManager();
 
     public void createReservation(Reservation reservation) {
-        em.getTransaction().begin();       
+        em.getTransaction().begin();
         for (int i = 0; i < reservation.getPassengers().size(); i++) {
             Passengers p = reservation.getPassengers().get(i);
             em.persist(p);
-        }        
+        }
         em.getTransaction().commit();
-        
+
         em.getTransaction().begin();
         em.persist(reservation);
         em.getTransaction().commit();
     }
-    
-    public void updateSeats(String reservation, String AirlineName) throws MalformedURLException, IOException {
+
+    public String updateSeats(String reservation, String AirlineName) throws MalformedURLException, IOException {
         String urlToUse = "";
-        
+
         Query query = em.createQuery("SELECT u.url from URL u WHERE u.airlineName = '" + AirlineName + "'");
         urlToUse = (String) query.getResultList().get(0) + "/api/flightreservation";
         URL url = new URL(urlToUse);
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setDoOutput(true);
-        con.setRequestMethod("PUT");
-        OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream());
-        out.write(reservation);
-        out.close();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type", "application/json;");
+        con.setRequestProperty("Accept", "application/json;charset=UTF-8");
+        try (OutputStreamWriter out = new OutputStreamWriter(con.getOutputStream())) {
+            out.write(reservation);
+        }
+
+        String jsonStr = "";
         con.getInputStream();
+        try (Scanner scan = new Scanner(con.getInputStream())) {
+            jsonStr = null;
+            while (scan.hasNext()) {
+                jsonStr = jsonStr + scan.nextLine();
+            }
+        }
+        
+        return jsonStr;
     }
 
     public static void main(String[] args) throws IOException {
@@ -65,23 +81,24 @@ public class ReservationFacade {
         passengers.add(p2);
         Reservation r = new Reservation(3, "Bubber", "12345678", "100004", "test@test.dk", passengers);
         f.createReservation(r);
-        f.updateSeats("{\n" +
-"  \"numberOfSeats\": 3,\n" +
-"  \"reserveName\": \"Bubber\",\n" +
-"  \"reservePhone\": \"12345678\",\n" +
-"  \"reserveEmail\": \"test@test.dk\",\n" +
-"  \"ID\": \"100004\",\n" +
-"  \"Passengers\": [\n" +
-"    {\n" +
-"      \"firstName\": \"Peter\",\n" +
-"      \"lastName\": \"Peterson\"\n" +
-"    },\n" +
-"    {\n" +
-"      \"firstName\": \"Jane\",\n" +
-"      \"lastName\": \"Peterson\"\n" +
-"    }\n" +
-"  ]\n" +
-"}", "The Giant Horn Airline");
+
+        System.out.println(f.updateSeats("{\n"
+                + "  \"numberOfSeats\": 3,\n"
+                + "  \"reserveName\": \"Bubber\",\n"
+                + "  \"reservePhone\": \"12345678\",\n"
+                + "  \"reserveEmail\": \"test@test.dk\",\n"
+                + "  \"ID\": \"100004\",\n"
+                + "  \"Passengers\": [\n"
+                + "    {\n"
+                + "      \"firstName\": \"Peter\",\n"
+                + "      \"lastName\": \"Peterson\"\n"
+                + "    },\n"
+                + "    {\n"
+                + "      \"firstName\": \"Jane\",\n"
+                + "      \"lastName\": \"Peterson\"\n"
+                + "    }\n"
+                + "  ]\n"
+                + "}", "The Giant Horn Airline"));
     }
 
 }
