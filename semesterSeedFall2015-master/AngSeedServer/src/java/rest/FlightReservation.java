@@ -32,6 +32,6 @@ public class FlightReservation {
     @Produces("application/json")
     public String CreateReservation(String reservation, @PathParam("airlineName") String airlineName) throws IOException {
         f.createReservation(gson.fromJson(reservation, Reservation.class));
-        return f.updateSeats(reservation, airlineName);
+        return f.updateSeats(reservation, gson.fromJson(reservation, Reservation.class), airlineName);
     }
 }
