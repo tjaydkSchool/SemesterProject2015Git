@@ -5,16 +5,17 @@
                 <div class="row searchInputFields">
                     <div class="col-md-3 col-sm-6"><input type="text" placeholder="From" ng-model="ctrl.destinationFrom"/></div>
                     <div class="col-md-3 col-sm-6"><input type="text" placeholder="To" ng-model="ctrl.destinationTo"/></div>
-                    <div class="col-md-3 col-sm-6"><input type="text" id="datepicker" ng-model="ctrl.datePickedFromPicker"/></div>
+                    <div class="col-md-3 col-sm-6"><md-content><md-datepicker ng-model="ctrl.myDate" md-placeholder="Enter date"></md-datepicker></md-content></div>
                     <div class="col-md-3 col-sm-6"><input type="number" placeholder="#tickets" ng-model="ctrl.numberOfTickets"/></div>
-                    <div class="col-md-12"><p>{{ctrl.datePickedFromPicker}}</p></div>
+                    <p>{{ctrl.datePickedFromPicker}}</p>
+                    <p>{{ctrl.dateP}}</p>
                 </div>
                 <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()"><i class="glyphicon glyphicon-search"></i></button>
             </form>
         </div>
     </div>
-    
-    
+
+
 
     <!--        <div class="row container">
                 <uib-accordion class="accordionThingy col-md-12" close-others="oneAtATime"  ng-repeat="trip in ctrl.trips">

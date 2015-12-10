@@ -18,7 +18,8 @@ angular.module('myApp', [
     'mySearchFunctionFromModule',
     'mySearchFunctionFromToModule',
     'myLoginModule',
-    'mySignUpModule'
+    'mySignUpModule',
+    'ngMaterial'
 ]).
         config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/view1', {

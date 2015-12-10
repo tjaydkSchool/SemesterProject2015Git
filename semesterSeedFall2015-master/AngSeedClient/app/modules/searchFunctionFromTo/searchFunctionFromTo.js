@@ -1,22 +1,22 @@
 angular.module('mySearchFunctionFromToModule', [])
         .controller('mySearchFunctionFromToController', ['$scope', '$http', function ($scope, $http) {
-                $("#datepicker").datepicker();
+//                $("#datepicker").datepicker();
                 var self = this;
+                self.myDate = new Date();
                 self.flightlist = [];
                 self.trips = [];
-                self.datePickedFromPicker = new Date();
-                
+
                 self.searchFunctionFromTo = function () {
-                    alert(self.datePickedFromPicker);
+                    alert(self.date);
 
 //                    FORMAT THE DATE
-                    self.date = new Date(self.datePickedFromPicker);
-                    var year = self.date.getFullYear();
-                    var month = self.date.getMonth();
-                    var day = self.date.getDate();
+                    var year = self.myDate.getFullYear();
+                    var month = self.myDate.getMonth();
+                    var day = self.myDate.getDate();
+
                     self.dateP = new Date(year, month, day, 2);
-                    
-                    
+
+
 //                    end of the date
 
                     $http({
