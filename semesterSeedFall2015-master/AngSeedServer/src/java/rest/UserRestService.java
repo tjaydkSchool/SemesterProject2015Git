@@ -29,11 +29,6 @@ public class UserRestService {
         facade = new UserFacade();
     }
   
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public String getSomething(){
-    return "{'test':'test'}"; 
-  }
   
   @POST
   @Produces("application/json")
@@ -41,6 +36,13 @@ public class UserRestService {
   public String createUser(String user) {
       facade.createUser(gson.fromJson(user, User.class));
       return user;
+  }
+  
+  @GET
+  @Path("{userName}")
+  @Produces(MediaType.APPLICATION_JSON)
+  public String getReservation(@PathParam("userName") String userName) {
+    return gson.toJson(facade.getReservations(userName));
   }
   
   @PUT

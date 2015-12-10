@@ -1,5 +1,6 @@
 package facades;
 
+import entity.Reservation;
 import entity.User;
 import exceptions.UserNotFoundException;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +11,7 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import security.PasswordHash;
 
 public class UserFacade {
@@ -111,6 +113,17 @@ public class UserFacade {
         } else {
             throw new UserNotFoundException("Cannot delete the user, as there is no user with the given username");
         }
+    }
+    
+    public List<Reservation> getReservations (String userName) {
+         Query query = em.createNamedQuery("Reservation.findReservations");
+         query.setParameter("userName", userName);
+         return query.getResultList();
+    }
+    
+    public static void main(String[] args) {
+        UserFacade f = new UserFacade();
+        System.out.println(f.getReservations("test@test.dk"));
     }
 
 }
