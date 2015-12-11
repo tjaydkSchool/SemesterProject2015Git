@@ -29,7 +29,7 @@ angular.module('mySearchFunctionFromToModule', [])
 
                 self.searchFunctionFromTo = function () {
                     console.log(self.selectedItemFrom.IATA);
-
+                    window.location.href = "#/view3";
 //                    FORMAT THE DATE
                     var year = self.myDate.getFullYear();
                     var month = self.myDate.getMonth();
@@ -44,19 +44,21 @@ angular.module('mySearchFunctionFromToModule', [])
                         type: "GET",
                         url: "/AngSeedServer/api/flightinfo/" + self.selectedItemFrom.IATA + "/" + self.selectedItemTo.IATA + "/" + self.dateP.toISOString() + "/" + self.numberOfTickets
                     }).then(function succesCallback(response) {
-                        self.trips = [];
+                        
+                        $scope.trips = [];
                         self.flightlist = response.data;
                         for (var i = 0, max = self.flightlist.length; i < max; i++) {
                             for (var j = 0, max = self.flightlist[i].flights.length; j < max; j++) {
-                                self.trips.push(self.flightlist[i].flights[j]);
+                                $scope.trips.push(self.flightlist[i].flights[j]);
                             }
                         }
-                        if (self.trips.length === 0) {
+                        if ($scope.trips.length === 0) {
                             alert("NO RESULTS");
                         }
+
                     }, function errorCallback(response) {
                         self.flightlist = "No matches found";
-                        self.trips = [];
+                        $scope.trips = [];
                         alert("NO RESULTS");
                     });
                 };

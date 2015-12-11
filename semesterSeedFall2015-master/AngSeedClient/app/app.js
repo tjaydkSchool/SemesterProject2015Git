@@ -3,8 +3,9 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
     'ngRoute',
-    'ui.router',
+    'ngMaterial',
     'ngAnimate',
+    'ui.router',
     'ui.bootstrap',
     'myApp.security',
     'myApp.view1',
@@ -18,17 +19,19 @@ angular.module('myApp', [
     'mySearchFunctionFromModule',
     'mySearchFunctionFromToModule',
     'myLoginModule',
-    'mySignUpModule',
-    'ngMaterial'
+    'mySignUpModule'
 ]).
         config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/view1', {
                     templateUrl: 'view1/view1.html'
                 })
-                .when('/view2', {
-                    templateUrl: 'view2/view2.html'
-                });
-                
+                        .when('/view2', {
+                            templateUrl: 'view2/view2.html'
+                        })
+                        .when('/view3', {
+                            templateUrl: 'view3/view3.html'
+                        })
+
                 $routeProvider.otherwise({redirectTo: '/view1'});
             }]).
         config(function ($httpProvider) {
