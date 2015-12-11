@@ -6,10 +6,11 @@ angular.module('myApp.view3', ['ngRoute','ngAnimate', 'ui.bootstrap'])
                     controller: 'View3Ctrl'
                 });
             }])
-        .controller('View3Ctrl', ['$scope', '$http', function ($scope, $http) {
+        .controller('View3Ctrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 
                 var self = this;
-                self.results = $scope.trips;
+                self.results = [];
+                self.results = $rootScope.trips;
                 
                 self.reserveTryVariable = ({        
                     

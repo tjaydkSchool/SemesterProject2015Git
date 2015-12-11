@@ -1,32 +1,18 @@
-<!--<html ng-app="myApp.view3">
-   <head>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.7/angular-animate.js"></script>
-        <script src="//angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>
-        <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-        <script src="view3.js" type="text/javascript"></script>
-    </head>
-    <body>-->
-
 <div data-ng-controller="View3Ctrl as ctrl">
     <h3>Results</h3>
     <div ng-repeat="result in ctrl.results">
-    <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights">
-        <div class="col-md-3"></div>
-        <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
-            <div class="resultInformation">
-                <p>Flight id: {{res.flightID}}</p>
-                <p>Seats Remaining: {{res.numberOfSeats}}</p>
-                <p>Flight Date: {{res.date}}</p>
-                <p>Travel Time: {{res.travelTime}} Minutes</p>
-                <button type="submit" ng-click="ctrl.reserveFunctionAsJSON()">Reserver</button>
-            </div>
-        </uib-accordion-group>
-        <div class="col-md-3"></div>
-    </uib-accordion>
+        <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights">
+            <div class="col-md-3"></div>
+            <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
+                <div class="resultInformation">
+                    <p>Flight id: {{res.flightID}}</p>
+                    <p>Seats Remaining: {{res.numberOfSeats}}</p>
+                    <p>Flight Date: {{res.date}}</p>
+                    <p>Travel Time: {{res.travelTime}} Minutes</p>
+                    <button type="submit" ng-click="ctrl.reserveFunctionAsJSON()">Reserver</button>
+                </div>
+            </uib-accordion-group>
+            <div class="col-md-3"></div>
+        </uib-accordion>
     </div>
 </div>
-
-
-<!--    </body>
-</html>-->

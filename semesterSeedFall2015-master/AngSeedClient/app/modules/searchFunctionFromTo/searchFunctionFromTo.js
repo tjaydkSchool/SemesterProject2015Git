@@ -1,17 +1,16 @@
 angular.module('mySearchFunctionFromToModule', [])
-        .controller('mySearchFunctionFromToController', ['$scope', '$http', function ($scope, $http) {
+        .controller('mySearchFunctionFromToController', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
 //                $("#datepicker").datepicker();
                 var self = this;
                 self.myDate = new Date();
                 self.flightlist = [];
-                self.trips = [];
-                
+
                 self.selectedItemFrom = null;
                 self.selectedItemTo = null;
                 self.searchTextFrom = null;
                 self.querySearch = querySearch;
                 self.cities = [];
-                
+
                 $http.get('json/cities.json').success(function (response) {
                     self.cities = response;
                 });
@@ -29,7 +28,6 @@ angular.module('mySearchFunctionFromToModule', [])
 
                 self.searchFunctionFromTo = function () {
                     console.log(self.selectedItemFrom.IATA);
-                    window.location.href = "#/view3";
 //                    FORMAT THE DATE
                     var year = self.myDate.getFullYear();
                     var month = self.myDate.getMonth();
@@ -44,23 +42,27 @@ angular.module('mySearchFunctionFromToModule', [])
                         type: "GET",
                         url: "/AngSeedServer/api/flightinfo/" + self.selectedItemFrom.IATA + "/" + self.selectedItemTo.IATA + "/" + self.dateP.toISOString() + "/" + self.numberOfTickets
                     }).then(function succesCallback(response) {
-                        
-                        $scope.trips = [];
+
+                        $rootScope.trips = [];
                         self.flightlist = response.data;
                         for (var i = 0, max = self.flightlist.length; i < max; i++) {
-                            for (var j = 0, max = self.flightlist[i].flights.length; j < max; j++) {
-                                $scope.trips.push(self.flightlist[i].flights[j]);
+                            if (self.flightlist[i] !== null) {
+                                    $rootScope.trips.push(self.flightlist[i]);
                             }
                         }
-                        if ($scope.trips.length === 0) {
+                        if ($rootScope.trips.length === 0) {
                             alert("NO RESULTS");
                         }
-
+                        else {
+                            window.location.href = "#/view3";
+                        }
                     }, function errorCallback(response) {
                         self.flightlist = "No matches found";
-                        $scope.trips = [];
+                        $rootScope.trips = [];
                         alert("NO RESULTS");
                     });
+
+
                 };
 
             }])
