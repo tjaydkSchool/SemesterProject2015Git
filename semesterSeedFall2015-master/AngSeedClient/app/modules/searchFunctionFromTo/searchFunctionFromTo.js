@@ -5,9 +5,30 @@ angular.module('mySearchFunctionFromToModule', [])
                 self.myDate = new Date();
                 self.flightlist = [];
                 self.trips = [];
+                
+                self.selectedItemFrom = null;
+                self.selectedItemTo = null;
+                self.searchTextFrom = null;
+                self.querySearch = querySearch;
+                self.cities = [];
+                
+                $http.get('json/cities.json').success(function (response) {
+                    self.cities = response;
+                });
+                function querySearch(query) {
+                    var q = query.toLowerCase();
+                    var results = [];
+                    var result = angular.forEach(self.cities, function (item) {
+                        if (item.city.toLowerCase().indexOf(q) === 0) {
+                            results.push(item);
+                        }
+                    });
+                    return results;
+                }
+                ;
 
                 self.searchFunctionFromTo = function () {
-                    alert(self.date);
+                    console.log(self.selectedItemFrom.IATA);
 
 //                    FORMAT THE DATE
                     var year = self.myDate.getFullYear();
@@ -21,7 +42,7 @@ angular.module('mySearchFunctionFromToModule', [])
 
                     $http({
                         type: "GET",
-                        url: "/AngSeedServer/api/flightinfo/" + self.destinationFrom + "/" + self.destinationTo + "/" + self.dateP.toISOString() + "/" + self.numberOfTickets
+                        url: "/AngSeedServer/api/flightinfo/" + self.selectedItemFrom.IATA + "/" + self.selectedItemTo.IATA + "/" + self.dateP.toISOString() + "/" + self.numberOfTickets
                     }).then(function succesCallback(response) {
                         self.trips = [];
                         self.flightlist = response.data;
