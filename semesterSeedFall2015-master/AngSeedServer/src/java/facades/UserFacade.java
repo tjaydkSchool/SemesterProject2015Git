@@ -120,10 +120,4 @@ public class UserFacade {
          query.setParameter("userName", userName);
          return query.getResultList();
     }
-    
-    public static void main(String[] args) {
-        UserFacade f = new UserFacade();
-        System.out.println(f.getReservations("test@test.dk"));
-    }
-
 }

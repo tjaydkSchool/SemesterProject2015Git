@@ -22,7 +22,9 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name = "Reservation.findReservations", query = "SELECT r FROM Reservation r WHERE r.reserveEmail = :userName")})
+    @NamedQuery(name = "Reservation.findReservations", query = "SELECT r FROM Reservation r WHERE r.reserveEmail = :userName"),
+    @NamedQuery(name = "Reservation.findAll", query = "SELECT r FROM Reservation r")
+})
 public class Reservation implements Serializable {
 
     private static final long serialVersionUID = 1L;
