@@ -7,18 +7,19 @@ package exceptions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import static exceptions.NoFlightsExceptionMapper.gson;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
+import javax.ws.rs.ext.Provider;
 
 /**
  *
  * @author Ebbe
  */
-public class UnknowErrorExceptionMapper implements ExceptionMapper<UnknownErrorException> {
+@Provider
+public class UnknowErrorExceptionMapper implements ExceptionMapper<Throwable> {
 
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -26,10 +27,11 @@ public class UnknowErrorExceptionMapper implements ExceptionMapper<UnknownErrorE
     ServletContext context;
 
     @Override
-    public Response toResponse(UnknownErrorException e) {
+    public Response toResponse(Throwable e) {
         boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
         ErrorMessage em = new ErrorMessage(e, 4, isDebug);
-        return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        em.setMessage("Unknown error, we are very sorry for the inconvenience");
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
     }
 
 }

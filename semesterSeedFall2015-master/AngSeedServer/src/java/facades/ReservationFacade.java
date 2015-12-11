@@ -7,6 +7,7 @@ package facades;
 
 import entity.Passengers;
 import entity.Reservation;
+import exceptions.NoAvailableTicketsException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,11 +46,9 @@ public class ReservationFacade {
         em.getTransaction().commit();
     }
 
-    public String updateSeats(String reservation, Reservation res, String AirlineName) throws MalformedURLException, IOException {
+    public String updateSeats(String reservation, Reservation res, String AirlineName) throws MalformedURLException, IOException, NoAvailableTicketsException {
         String urlToUse = "";
 
-        
-        
         Query query = em.createQuery("SELECT u.url from URL u WHERE u.airlineName = '" + AirlineName + "'");
         urlToUse = (String) query.getResultList().get(0) + "/api/flightreservation";
         URL url = new URL(urlToUse);
@@ -63,16 +62,35 @@ public class ReservationFacade {
         }
 
         String jsonStr = "";
-        con.getInputStream();
         try (Scanner scan = new Scanner(con.getInputStream())) {
             jsonStr = null;
             while (scan.hasNext()) {
                 jsonStr = jsonStr + scan.nextLine();
             }
+            createReservation(res);
+            return jsonStr;
+        } catch (IOException e) {
+            throw new NoAvailableTicketsException();
         }
-        createReservation(res);
-        return jsonStr;
     }
-    
 
+    public static void main(String[] args) throws IOException, MalformedURLException, NoAvailableTicketsException {
+        ReservationFacade f = new ReservationFacade();
+        Reservation reservation = new Reservation();
+        f.updateSeats("{\n"
+                + "    \"numberOfSeats\": 150,\n"
+                + "    \"ReserveeName\": \"Bubber\",\n"
+                + "    \"ReservePhone\": \"12345678\",\n"
+                + "    \"ReserveeEmail\": \"test@test.dk\",\n"
+                + "    \"flightID\": \"100001\",\n"
+                + "    \"Passengers\":[\n"
+                + "        { \"firstName\":\"Peter\",\n"
+                + "          \"lastName\": \"Peterson\"\n"
+                + "        },\n"
+                + "        { \"firstName\":\"Jane\",\n"
+                + "          \"lastName\": \"Peterson\"\n"
+                + "        }\n"
+                + "    ]\n"
+                + "}", reservation, "The Giant Horn Airline");
+    }
 }

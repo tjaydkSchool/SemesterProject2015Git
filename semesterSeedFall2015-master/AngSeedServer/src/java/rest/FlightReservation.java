@@ -8,8 +8,11 @@ package rest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.Reservation;
+import exceptions.NoAvailableTicketsException;
 import facades.ReservationFacade;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -30,7 +33,7 @@ public class FlightReservation {
     @Path("{airlineName}")
     @Consumes("application/json")
     @Produces("application/json")
-    public String CreateReservation(String reservation, @PathParam("airlineName") String airlineName) throws IOException {
-        return f.updateSeats(reservation, gson.fromJson(reservation, Reservation.class), airlineName);
+    public String CreateReservation(String reservation, @PathParam("airlineName") String airlineName) throws NoAvailableTicketsException, IOException {
+            return f.updateSeats(reservation, gson.fromJson(reservation, Reservation.class), airlineName);
     }
 }
