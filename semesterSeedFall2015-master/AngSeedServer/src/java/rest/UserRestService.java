@@ -4,7 +4,8 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import entity.User;
-import exceptions.UserNotFoundException;
+import exceptions.CustomNotFoundException;
+import exceptions.UnprocessableEntityError;
 import facades.UserFacade;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
@@ -33,7 +34,7 @@ public class UserRestService {
   @POST
   @Produces("application/json")
   @Consumes("application/json")
-  public String createUser(String user) {
+  public String createUser(String user) throws UnprocessableEntityError {
       facade.createUser(gson.fromJson(user, User.class));
       return user;
   }
@@ -41,13 +42,13 @@ public class UserRestService {
   @GET
   @Path("{userName}")
   @Produces(MediaType.APPLICATION_JSON)
-  public String getReservation(@PathParam("userName") String userName) {
+  public String getReservation(@PathParam("userName") String userName) throws CustomNotFoundException {
     return gson.toJson(facade.getReservations(userName));
   }
   
   @PUT
   @Consumes("application/json")
-  public String updateUser(String user) throws UserNotFoundException {
+  public String updateUser(String user) throws CustomNotFoundException {
       facade.updateUser(gson.fromJson(user, User.class));
       return user;
   }
@@ -56,7 +57,7 @@ public class UserRestService {
   @Path("{username}")
   @Produces("application/json") 
   @Consumes("application/json")
-  public String deleteUser(@PathParam("username") String username) throws UserNotFoundException {
+  public String deleteUser(@PathParam("username") String username) throws CustomNotFoundException {
       facade.deleteUser(username);
       return username;
   }

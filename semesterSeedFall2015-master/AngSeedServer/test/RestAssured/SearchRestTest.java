@@ -78,7 +78,7 @@ public class SearchRestTest {
                 when().
                 get("/flightinfo/NOTANAIRPORT/2016-01-04T23:00:00.000Z/3").
                 then().
-                statusCode(500);
+                statusCode(1);
     }
 
     @Test
@@ -89,15 +89,5 @@ public class SearchRestTest {
                 get("/flightinfo/CPH/STN/2016-01-04T23:00:00.000Z/3").
                 then().
                 statusCode(200);
-    }
-
-    @Test
-    public void testSearchOriginDestinationDateTicketsWrongParameter() {
-        given().
-                contentType("application/json").
-                when().
-                get("/flightinfo/NOTANAIRPORT/STN/2016-01-04T23:00:00.000Z/3").
-                then().
-                statusCode(500);
     }
 }

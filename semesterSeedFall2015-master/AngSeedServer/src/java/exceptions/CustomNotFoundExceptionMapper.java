@@ -14,7 +14,7 @@ import javax.ws.rs.ext.Provider;
  * @author Ebbe
  */
 @Provider
-public class UserNotFoundExceptionMapper implements ExceptionMapper<UserNotFoundException> {
+public class CustomNotFoundExceptionMapper implements ExceptionMapper<CustomNotFoundException> {
 
     static Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -22,11 +22,10 @@ public class UserNotFoundExceptionMapper implements ExceptionMapper<UserNotFound
     ServletContext context;
 
     @Override
-    public Response toResponse(UserNotFoundException e) {
+    public Response toResponse(CustomNotFoundException e) {
         boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
         ErrorMessage em = new ErrorMessage(e, Response.Status.NOT_FOUND.getStatusCode(), isDebug);
         return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
-
     }
 
 }

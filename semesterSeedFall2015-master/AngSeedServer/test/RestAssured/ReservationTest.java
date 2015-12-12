@@ -14,17 +14,18 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Test;
 import rest.ApplicationConfig;
 
 /**
  *
  * @author Ebbe
  */
-public class ReservationFacadeTest {
+public class ReservationTest {
 
     static Server server;
 
-    public ReservationFacadeTest() {
+    public ReservationTest() {
         baseURI = "http://localhost:8082";
         defaultParser = Parser.JSON;
         basePath = "/api";
@@ -47,6 +48,11 @@ public class ReservationFacadeTest {
         server.stop();
         //waiting for all the server threads to terminate so we can exit gracefully
         server.join();
+    }
+    
+    @Test
+    public void MakeReservation() {
+        
     }
 
 }

@@ -1,7 +1,7 @@
 package JUnit;
 
 import entity.User;
-import exceptions.UserNotFoundException;
+import exceptions.CustomNotFoundException;
 import facades.UserFacade;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -33,7 +33,7 @@ public class UserJUnitTest {
     
 //    TESTING ALL THE CRUD METHODS FOR THE USER
     @Test
-    public void testCRUDUser() throws UserNotFoundException {
+    public void testCRUDUser() throws CustomNotFoundException {
         User user = new User();
         user.setUsername("testuser");
         user.setPassword("testpass");
@@ -57,7 +57,7 @@ public class UserJUnitTest {
     
 //    TESTING THAT ROLE AS USER IS AUTOMATICALLY ADDED WHEN CREATING USER
     @Test
-    public void testUserRoleAdded() throws UserNotFoundException {
+    public void testUserRoleAdded() throws CustomNotFoundException {
         User user = new User();
         user.setUsername("test");
         
@@ -70,7 +70,7 @@ public class UserJUnitTest {
     
 //    AUTHENTICATE PASSWORD
     @Test
-    public void testAuthenticatedPassword() throws NoSuchAlgorithmException, InvalidKeySpecException, UserNotFoundException {
+    public void testAuthenticatedPassword() throws NoSuchAlgorithmException, InvalidKeySpecException, CustomNotFoundException {
         User user = new User();
         user.setUsername("test");
         user.setPassword("pass");

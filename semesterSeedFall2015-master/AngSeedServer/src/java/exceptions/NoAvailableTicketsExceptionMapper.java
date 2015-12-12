@@ -7,7 +7,7 @@ package exceptions;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import static exceptions.UserNotFoundExceptionMapper.gson;
+import static exceptions.CustomNotFoundExceptionMapper.gson;
 import javax.servlet.ServletContext;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;

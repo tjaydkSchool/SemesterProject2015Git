@@ -4,13 +4,13 @@ package exceptions;
  *
  * @author Ebbe
  */
-public class UserNotFoundException extends Exception {
+public class CustomNotFoundException extends Exception {
 
     /**
      * Creates a new instance of <code>UserNotFoundException</code> with the
      * detail message: "There is no user with the given username".
      */
-    public UserNotFoundException() {
+    public CustomNotFoundException() {
         super("There is no user with the given username");
     }
 
@@ -20,7 +20,7 @@ public class UserNotFoundException extends Exception {
      *
      * @param msg the detail message.
      */
-    public UserNotFoundException(String msg) {
+    public CustomNotFoundException(String msg) {
         super(msg);
     }
 

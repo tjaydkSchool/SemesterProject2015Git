@@ -81,6 +81,7 @@ public class UserRestTest {
 
     @Test
     public void LoginWrongUsername() {
+        //wrong username
         given().
                 contentType("application/json").
                 body("{'username':'notUsername','password':'test'}").
@@ -93,7 +94,7 @@ public class UserRestTest {
 
     @Test
     public void LoginWrongPassword() {
-        //wrong username and password
+        //wrong password
         given().
                 contentType("application/json").
                 body("{'username':'user','password':'notPassword'}").
@@ -117,9 +118,11 @@ public class UserRestTest {
                 body("error.message", equalTo("Ilegal username or password"));
 
     }
-    
+
     @Test
     public void PostPutDeleteUserTest() {
+//      updage user
+//      delete user
         given().
                 contentType("application/json").
                 body(new User("newUser", "test")).
@@ -141,5 +144,28 @@ public class UserRestTest {
                 then().
                 statusCode(200);
     }
-    
+
+    @Test
+    //get reservations
+    public void GetUserReservations() {
+        given().
+                contentType("application/json").
+                when().
+                get("/user/test@test.dk").
+                then().
+                statusCode(200);
+    }
+
+    @Test
+    //get reservations when there are none
+    public void GetUserReservationsNoReservations() {
+        given().
+                contentType("application/json").
+                when().
+                get("/user/thisIsNotAUser").
+                then().
+                statusCode(404).
+                body("error.message", equalTo("This user has no reservations"));
+    }
+
 }

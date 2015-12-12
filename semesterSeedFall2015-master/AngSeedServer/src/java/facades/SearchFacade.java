@@ -40,7 +40,7 @@ public class SearchFacade {
 
     public static void main(String[] args) throws IOException {
         SearchFacade f = new SearchFacade();
-        System.out.println(f.getURLs("/api/flightinfo/CPH/2016-01-04T23:00:00.000Z/3").size());
+        System.out.println(f.getURLs("/api/flightinfo/CPH/SXF/2016-01-04T23:00:00.000Z/3").size());
     }
 
     public List<JsonObject> getURLs(String parameters) throws MalformedURLException, IOException {

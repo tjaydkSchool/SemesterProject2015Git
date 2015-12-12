@@ -2,7 +2,8 @@ package facades;
 
 import entity.Reservation;
 import entity.User;
-import exceptions.UserNotFoundException;
+import exceptions.CustomNotFoundException;
+import exceptions.UnprocessableEntityError;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.List;
@@ -12,6 +13,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import static org.eclipse.persistence.exceptions.DynamicException.entityNotFoundException;
 import security.PasswordHash;
 
 public class UserFacade {
@@ -66,8 +68,8 @@ public class UserFacade {
         return null;
     }
 
-    public void createUser(User user) {
-        if (user != null) {
+    public void createUser(User user) throws UnprocessableEntityError {
+        if (em.find(User.class, user.getUsername()) == null) {
             try {
                 user.AddRole("User");
                 if (user.getPassword() != null) {
@@ -81,10 +83,12 @@ public class UserFacade {
             } catch (InvalidKeySpecException ex) {
                 Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
-        } 
+        } else {
+            throw new UnprocessableEntityError("Username already taken");
+        }
     }
 
-    public void updateUser(User user) throws UserNotFoundException {
+    public void updateUser(User user) throws CustomNotFoundException {
         if (em.find(User.class, user.getUsername()) != null) {
             try {
                 if (user.getPassword() != null) {
@@ -98,26 +102,29 @@ public class UserFacade {
             } catch (InvalidKeySpecException ex) {
                 Logger.getLogger(UserFacade.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else {
-            throw new UserNotFoundException("Cannot update the user, as there is no user with the given username");
+        } else {
+            throw new CustomNotFoundException("Cannot update the user, as there is no user with the given username");
         }
     }
 
-    public void deleteUser(String username) throws UserNotFoundException {
+    public void deleteUser(String username) throws CustomNotFoundException {
         User u = em.find(User.class, username);
         if (u != null) {
             em.getTransaction().begin();
             em.remove(u);
             em.getTransaction().commit();
         } else {
-            throw new UserNotFoundException("Cannot delete the user, as there is no user with the given username");
+            throw new CustomNotFoundException("Cannot delete the user, as there is no user with the given username");
         }
     }
-    
-    public List<Reservation> getReservations (String userName) {
-         Query query = em.createNamedQuery("Reservation.findReservations");
-         query.setParameter("userName", userName);
-         return query.getResultList();
+
+    public List<Reservation> getReservations(String userName) throws CustomNotFoundException {
+        Query query = em.createNamedQuery("Reservation.findReservations");
+        query.setParameter("userName", userName);
+        if (!(query.getResultList().isEmpty())) {
+            return query.getResultList();
+        } else {
+            throw new CustomNotFoundException("This user has no reservations");
+        }
     }
 }
