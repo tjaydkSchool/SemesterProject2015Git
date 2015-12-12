@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <!-- Angular Material style sheet -->
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc5/angular-material.min.css">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <style>
+            .intro {
+                position: absolute;
+                left: 30px;
+                top: 20px;
+                width: 600px;
+                height: 20px;
+                font-size : 12px;
+            }
+
+            .demo {
+                position: relative;
+                width: 600px;
+                height: 300px;
+                background-color: #cccccc;
+                margin-top: 40px;
+                margin-left: 0px;
+            }
+
+            .demo #content {
+                background-color: rgb(255, 255, 255);
+                padding: 30px;
+                font-weight: 600;
+                border: 1px solid #999999;
+                border-top: none;
+            }
+        </style>
+    </head>
+    <body ng-app="dsntApp" 
+                     ng-controller="tabCtrl"
+                     layout="column" class="demo" >
+        <div class="intro">
+            This demonstration shows how Angular-Material Tabs can be used with Angular-UI-Router
+            <div>
+
+                <div >
+
+                    <script type="text/ng-template" id="partials/view1.html">  Tab #1 </script>
+                    <script type="text/ng-template" id="partials/view2.html">  Tab #2 </script>
+                    <script type="text/ng-template" id="partials/view3.html">  Tab #3 </script>
+                    <md-toolbar>
+                        <h2 class="md-toolbar-tools">
+                            <span>Toolbar</span>
+                        </h2>
+                    </md-toolbar>
+                    <md-tabs md-stretch-tabs 
+                             md-selected="selectedIndex">
+                        <md-tab label="tab1"></md-tab> 
+                        <md-tab label="tab2"></md-tab>
+                        <md-tab label="tab3"></md-tab>  
+                    </md-tabs>
+
+                    <div id="content" ui-view flex> </div>
+
+                </div>
+                <!-- Angular Material requires Angular.js Libraries -->
+                <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+                <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+                <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+                <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+                <!-- Angular Material Library -->
+                <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc7/angular-material.min.js"></script>
+                <script>
+                                 angular.module('dsntApp', ['ngMaterial', "ui.router"])
+                                 .config(function ($stateProvider, $urlRouterProvider) {
+
+                                 $urlRouterProvider.otherwise('/tab/dash');
+                                         $stateProvider
+                                         .state('view1', {
+                                         url: "/view1",
+                                                 templateUrl: "partials/view1.html"
+                                         })
+                                         .state('view2', {
+                                         url: "/view2",
+                                                 templateUrl: "partials/view2.html"
+                                         })
+                                         .state('view3', {
+                                         url: "/view3",
+                                                 templateUrl: "partials/view3.html"
+                                         })
+                                         ;
+                                 })
+                                 .controller('tabCtrl', function ($scope, $location, $log) {
+                                 $scope.selectedIndex = 0;
+                                         $scope.$watch('selectedIndex', function (current, old) {
+                                         switch (current) {
+                                         case 0:
+                                                 $location.url("/view1");
+                                                 break;
+                                                 case 1:
+                                                 $location.url("/view2");
+                                                 break;
+                                                 case 2:
+                                                 $location.url("/view3");
+                                                 break;
+                                         }
+                                         });
+                                 });
+                </script>
+                </body>
+                </html>

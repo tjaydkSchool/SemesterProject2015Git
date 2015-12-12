@@ -1,18 +1,20 @@
 <div data-ng-controller="View3Ctrl as ctrl">
-    <h3>Results</h3>
-    <div ng-repeat="result in ctrl.results">
-        <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights">
-            <div class="col-md-3"></div>
-            <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
-                <div class="resultInformation">
-                    <p>Flight id: {{res.flightID}}</p>
-                    <p>Seats Remaining: {{res.numberOfSeats}}</p>
-                    <p>Flight Date: {{res.date}}</p>
-                    <p>Travel Time: {{res.travelTime}} Minutes</p>
-                    <button type="submit" ng-click="ctrl.reserveFunctionAsJSON()">Reserver</button>
-                </div>
-            </uib-accordion-group>
-            <div class="col-md-3"></div>
-        </uib-accordion>
+    <div class="resultsList">
+        <h3>Results</h3>
+        <div ng-repeat="result in ctrl.results">
+            <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights" style="z-index: 200;">
+                <div class="col-md-3"></div>
+                <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
+                    <div class="resultInformation">
+                        <p>Flight id: {{res.flightID}}</p>
+                        <p>Seats Remaining: {{res.numberOfSeats}}</p>
+                        <p>Flight Date: {{res.date}}</p>
+                        <p>Travel Time: {{res.travelTime}} Minutes</p>
+                        <button type="submit" ng-click="ctrl.reserveFunctionAsJSON()">Reserver</button>
+                    </div>
+                </uib-accordion-group>
+                <div class="col-md-3"></div>
+            </uib-accordion>
+        </div>
     </div>
 </div>

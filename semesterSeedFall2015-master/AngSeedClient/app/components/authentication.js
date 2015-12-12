@@ -56,14 +56,19 @@ angular.module('myApp.security', [])
                             });
                             //CLOSE LOGIN SCREEN AND RETURN TO SEARCH PAGE
                             $("#loginScreen").css("opacity", "0");
-                            $("#loginScreen").css("z-index", "0");
+                            $("#loginScreen").css("z-index", "-10");
                             $(".searchField").css("opacity", "1");
                             $("#loginBtn").css("opacity", "1");
                             $(".loginWrapper").html("<ul class='nav navbar-nav navbar-right'>" +
-                                "<li class='active'>Logged in as: "+ $scope.username +"<span class='sr-only'>(current)</span></li>" +
-                                "</ul>");
+                                    "<li class='loggedIn'>Logged in as: " + $scope.username +
+                                    "<a style='color: black;' href='#/view4'>MY ACCOUNT</a></li>" +
+                                    "</ul>");
                             $scope.error = null;
-                            $location.path("#/view1");
+                            $rootScope.username = profile.username;
+                            $rootScope.userReservations = $http.get('api/user/'+ $rootScope.username).success(function(data) {
+                                console.log(data);
+                            });
+                            
                         })
                         .error(function (data, status, headers, config) {
                             // Erase the token if the user fails to log in
@@ -73,6 +78,8 @@ angular.module('myApp.security', [])
                             $scope.isUser = false;
                             $scope.username = "";
                             $scope.error = data.error;
+                            
+                            //CLEAR USERNAME AND PASSWORD
                             $("#username").val("");
                             $("#password").val("");
                             //$scope.logout();  //Clears an eventual error message from timeout on the inner view
@@ -83,6 +90,17 @@ angular.module('myApp.security', [])
                 $scope.isAuthenticated = false;
                 $scope.isAdmin = false;
                 $scope.isUser = false;
+                $rootScope.username = "";
+                $scope.username = "";
+                
+                //RESTORES LOGIN FUNCTION
+                $(".loginWrapper").html("<ul class='nav navbar-nav navbar-right'>" +
+                                    '<li class="active" id="loginBtn">Login<span class="sr-only">(current)</span></li>' +
+                                    "</ul>");
+                
+                //CLEAR USERNAME AND PASSWORD
+                $("#username").val("");
+                $("#password").val("");
                 delete $window.sessionStorage.token;
                 $location.path("#/view1");
             };
