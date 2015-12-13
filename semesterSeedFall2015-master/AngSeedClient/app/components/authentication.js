@@ -36,7 +36,7 @@ angular.module('myApp.security', [])
             $scope.message = '';
             $scope.error = null;
 
-            $scope.login = function () {
+            $rootScope.login = function () {
                 $http
                         .post('api/login', $scope.user)
                         .success(function (data, status, headers, config) {
@@ -59,16 +59,27 @@ angular.module('myApp.security', [])
                             $("#loginScreen").css("z-index", "-10");
                             $(".searchField").css("opacity", "1");
                             $("#loginBtn").css("opacity", "1");
-                            $(".loginWrapper").html("<ul class='nav navbar-nav navbar-right'>" +
-                                    "<li class='loggedIn'>Logged in as: " + $scope.username +
-                                    "<a style='color: black;' href='#/view4'>MY ACCOUNT</a></li>" +
-                                    "</ul>");
+                            if ($scope.isAdmin === false) {
+                                $(".loginWrapper").html("<ul class='nav navbar-nav navbar-right'>" +
+                                        "<li class='loggedIn'>Logged in as: " + $scope.username +
+                                        "<a style='color: black;' href='#/view4'>MY ACCOUNT</a></li>" +
+                                        "</ul>");
+                                $http.get('api/user/' + $scope.username).success(function (data) {
+                                    alert(data.length);
+                                    $rootScope.userReservations = data;
+                                });
+                            } else if ($scope.isAdmin === true) {
+                                $(".loginWrapper").html("<ul class='nav navbar-nav navbar-right'>" +
+                                        "<li class='loggedIn'>Logged in as: " + $scope.username +
+                                        "<a style='color: black;' href='#/view5'>ADMIN SECTION</a></li>" +
+                                        "</ul>");
+                                $http.get('api/admin').success(function (data) {
+                                    $rootScope.allReservations = data;
+                                });
+                            }
                             $scope.error = null;
                             $rootScope.username = profile.username;
-                            $rootScope.userReservations = $http.get('api/user/'+ $rootScope.username).success(function(data) {
-                                console.log(data);
-                            });
-                            
+
                         })
                         .error(function (data, status, headers, config) {
                             // Erase the token if the user fails to log in
@@ -78,7 +89,7 @@ angular.module('myApp.security', [])
                             $scope.isUser = false;
                             $scope.username = "";
                             $scope.error = data.error;
-                            
+
                             //CLEAR USERNAME AND PASSWORD
                             $("#username").val("");
                             $("#password").val("");
@@ -92,12 +103,12 @@ angular.module('myApp.security', [])
                 $scope.isUser = false;
                 $rootScope.username = "";
                 $scope.username = "";
-                
+
                 //RESTORES LOGIN FUNCTION
                 $(".loginWrapper").html("<ul class='nav navbar-nav navbar-right'>" +
-                                    '<li class="active" id="loginBtn">Login<span class="sr-only">(current)</span></li>' +
-                                    "</ul>");
-                
+                        '<li class="active" id="loginBtn">Login<span class="sr-only">(current)</span></li>' +
+                        "</ul>");
+
                 //CLEAR USERNAME AND PASSWORD
                 $("#username").val("");
                 $("#password").val("");

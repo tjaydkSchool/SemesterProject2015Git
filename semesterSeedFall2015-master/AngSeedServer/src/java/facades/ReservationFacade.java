@@ -13,6 +13,8 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -71,9 +73,21 @@ public class ReservationFacade {
 
     public static void main(String[] args) throws IOException, MalformedURLException, NoAvailableTicketsException {
         ReservationFacade f = new ReservationFacade();
-        Reservation reservation = new Reservation();
+        Passengers p1 = new Passengers("First", "Last");
+        Passengers p2 = new Passengers("newFirst", "newLast");
+        List<Passengers> pl = new ArrayList();
+        pl.add(p1);
+        pl.add(p2);
+        
+        Reservation r = new Reservation();
+        r.setNumberOfSeats(5);
+        r.setPassengers(pl);
+        r.setId("100001");
+        r.setReserveName("Navnet");
+        r.setReservePhone("1234");
+        r.setUser("test@test.dk");
         f.updateSeats("{\n"
-                + "    \"numberOfSeats\": 150,\n"
+                + "    \"numberOfSeats\": 5,\n"
                 + "    \"ReserveeName\": \"Bubber\",\n"
                 + "    \"ReservePhone\": \"12345678\",\n"
                 + "    \"ReserveeEmail\": \"test@test.dk\",\n"
@@ -86,6 +100,6 @@ public class ReservationFacade {
                 + "          \"lastName\": \"Peterson\"\n"
                 + "        }\n"
                 + "    ]\n"
-                + "}", reservation, "The Giant Horn Airline");
+                + "}", r, "The Giant Horn Airline");
     }
 }

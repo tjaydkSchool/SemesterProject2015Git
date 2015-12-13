@@ -22,11 +22,11 @@
                                         <div class="col-md-3 col-sm-6">
                                             <form ng-submit="$event.preventDefault()" name="searchForm"  style="z-index: 1000;">
                                                 <div layout-gt-sm="row">
-                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemFrom" md-search-text="ctrl.searchTextFrom" md-items="item in ctrl.querySearch(ctrl.searchTextFrom)" md-item-text="item.city" md-floating-label="From">
+                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteFieldFrom" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemFrom" md-search-text="ctrl.searchTextFrom" md-items="item in ctrl.querySearch(ctrl.searchTextFrom)" md-item-text="item.city" md-floating-label="From">
                                                         <md-item-template>
                                                             <span md-highlight-text="ctrl.searchTextFrom">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
                                                         </md-item-template>
-                                                        <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                                        <div ng-messages="searchForm.autocompleteFieldFrom.$error" ng-if="searchForm.autocompleteField.$touched">
                                                             <div ng-message="required">You <b>must</b> enter a from destination.</div>
                                                             <div ng-message="minlength">Your entry is not long enough.</div>
                                                             <div ng-message="maxlength">Your entry is too long.</div>
@@ -38,12 +38,12 @@
                                         <div class="col-md-3 col-sm-6">
                                             <form ng-submit="$event.preventDefault()" name="searchTo">
                                                 <div layout-gt-sm="row">
-                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemTo" md-search-text="ctrl.searchTextTo" md-items="item in ctrl.querySearch(ctrl.searchTextTo)" md-item-text="item.city" md-floating-label="To">
+                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteFieldTo" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemTo" md-search-text="ctrl.searchTextTo" md-items="item in ctrl.querySearch(ctrl.searchTextTo)" md-item-text="item.city" md-floating-label="To">
                                                         <md-item-template>
                                                             <span md-highlight-text="ctrl.searchTextTo">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
                                                         </md-item-template>
-                                                        <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
-                                                            <div ng-message="required">You <b>must</b> enter a from destination.</div>
+                                                        <div ng-messages="searchForm.autocompleteFieldTo.$error" ng-if="searchForm.autocompleteField.$touched">
+                                                            <div ng-message="required">You <b>must</b> enter a to destination.</div>
                                                             <div ng-message="minlength">Your entry is not long enough.</div>
                                                             <div ng-message="maxlength">Your entry is too long.</div>
                                                         </div>
@@ -54,7 +54,10 @@
                                         <div class="col-md-3 col-sm-6">
                                             <md-input-container class="md-block" flex-gt-sm>
                                                 <label>Tickets</label>
-                                                <input ng-model="ctrl.numberOfTickets">
+                                                <input ng-model="ctrl.numberOfTickets" required="required" md-input-name="numberofseats">
+                                                <div ng-messages="searchForm.numberofseats.$error" ng-if="searchForm.autocompleteField.$touched">
+                                                            <div ng-message="required">You <b>must</b> enter number of tickets.</div>
+                                                        </div>
                                             </md-input-container>
                                         </div>
                                         <div class="col-md-3 col-sm-6">

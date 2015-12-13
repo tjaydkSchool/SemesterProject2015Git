@@ -1,0 +1,140 @@
+<html lang="en" ng-app="BlankApp">
+    <head>
+        <!-- Angular Material style sheet -->
+        <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc5/angular-material.min.css">
+    </head>
+    <body ng-cloak>
+        <div ng-controller="DemoCtrl as ctrl" layout="column" ng-cloak="" class="autocompletedemoFloatingLabel">
+            <md-content class="md-padding">
+                <form ng-submit="$event.preventDefault()" name="searchForm">
+                    <p>The following example demonstrates floating labels being used as a normal form element.</p>
+                    <div layout-gt-sm="row">
+                        <md-input-container flex="">
+                            <label>Name</label>
+                            <input type="text">
+                        </md-input-container>
+                        <md-autocomplete flex="" required="" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItem" md-search-text="ctrl.searchText" md-items="item in ctrl.querySearch(ctrl.searchText)" md-item-text="item.city" md-floating-label="From">
+                            <md-item-template>
+                                <span md-highlight-text="ctrl.searchText">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
+                            </md-item-template>
+                            <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                <div ng-message="required">You <b>must</b> enter a from destination.</div>
+                                <div ng-message="minlength">Your entry is not long enough.</div>
+                                <div ng-message="maxlength">Your entry is too long.</div>
+                            </div>
+                        </md-autocomplete>
+                    </div>
+                </form>
+
+
+
+                <script type="text/ng-template" id="partials/view1.html">
+                    INSERT CODE HERE TAB #1
+                </script>
+                
+                
+                <script type="text/ng-template" id="partials/view2.html">
+                    INSERT CODE HERE TAB #2
+                </script>
+                <!--<script type="text/ng-template" id="partials/view3.html">  Tab #3 </script>-->
+                <md-toolbar>
+                    <h2 class="md-toolbar-tools">
+                        <span>TRIP SEARCHTOOL</span>
+                    </h2>
+                </md-toolbar>
+                <md-tabs md-stretch-tabs 
+                         md-selected="selectedIndex">
+                    <md-tab label="Feeling lucky"></md-tab> 
+                    <md-tab label="Find trip"></md-tab> 
+                </md-tabs>
+
+                <div id="content" ui-view flex> </div>
+            </md-content>
+        </div>
+
+        <!-- Angular Material requires Angular.js Libraries -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+        <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.15/angular-ui-router.min.js"></script>
+
+
+        <!-- Angular Material Library -->
+        <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.0-rc7/angular-material.min.js"></script>
+
+        <!-- Your application bootstrap  -->
+        <script type="text/javascript">
+                                        angular
+                                        .module('BlankApp', ['ngMaterial', "ui.router"])
+                                        .config(function($stateProvider, $urlRouterProvider) {
+
+                                        $urlRouterProvider.otherwise('/tab/dash');
+                                                $stateProvider
+                                                .state('view1', {
+                                                url: "/view1",
+                                                        templateUrl: "partials/view1.html"
+                                                })
+                                                .state('view2', {
+                                                url: "/view2",
+                                                        templateUrl: "partials/view2.html"
+                                                })
+                                                .state('view3', {
+                                                url: "/view3",
+                                                        templateUrl: "partials/view3.html"
+                                                })
+                                                ;
+                                        })
+                                        .controller('DemoCtrl', ['$scope', '$http', '$location', '$log', function($scope, $http, $location, $log) {
+                                        var self = this;
+//                                                TABS START
+                                                $scope.selectedIndex = 0;
+                                                $scope.$watch('selectedIndex', function(current, old) {
+                                                console.log(self.selectedTabIndex);
+                                                        switch (current) {
+                                                case 0:
+                                                        $location.url("/view1");
+                                                        break;
+                                                        case 1:
+                                                        $location.url("/view2");
+                                                        break;
+                                                        case 2:
+                                                        $location.url("/view3");
+                                                        break;
+                                                }
+                                                });
+//                                                END OF TABS
+
+
+                                                // list of `state` value/display objects
+                                                self.selectedItem = null;
+                                                self.searchText = null;
+                                                self.querySearch = querySearch;
+                                                self.cities = [];
+                                                //IF POSSIBLE CHANGE THIS TO BE IN FACTORY TO BE ABLE TO CACHE THE DATA ON CLIENT SIDE
+                                                $http.get('json/cities.json').success(function (response) {
+                                        self.cities = response;
+                                        });
+                                                // ******************************
+                                                        // Internal methods
+                                                                // ******************************
+
+                                                                        /**
+                                                                         * Search for cities... use $timeout to simulate
+                                                                         * remote dataservice call.
+                                                                         */
+                                                                                function querySearch (query) {
+                                                                                var q = query.toLowerCase();
+                                                                                        var results = [];
+                                                                                        var result = angular.forEach(self.cities, function(item) {
+                                                                                        if (item.city.toLowerCase().indexOf(q) === 0) {
+                                                                                        results.push(item);
+                                                                                        }
+                                                                                        });
+                                                                                        return results;
+                                                                                };
+                                                                        }]);
+        </script>
+
+    </body>
+</html>

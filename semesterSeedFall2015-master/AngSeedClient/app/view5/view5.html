@@ -1,18 +1,12 @@
 <div style="margin-top: 20%; background-color: transparent;" class="row">
 
-<h1>MY ACCOUNT</h1>
+<h1>LIST OF RESERVATIONS</h1>
 
 <div>
   <uib-accordion>
-    <uib-accordion-group heading="Account information" >
-      <ul style="list-style-type: none;">
-          <li>Username: {{username}}</li>
-      </ul>
-    </uib-accordion-group>
-    
     <uib-accordion-group heading="Reservations" >
       <table class="table">
-          <tr ng-repeat="res in userReservations">
+          <tr ng-repeat="res in allReservations">
               <td>{{res.reservationID}}</td>
               <td>{{res.numberOfSeats}}</td>
           </tr>

@@ -1,16 +1,34 @@
 <div ng-controller="mySignUpController as ctrl">
-    <div class="signUpModuleDefault col-md-12">
-    <div class="col-md-12">
-        <input type="text" placeholder="Insert Username"/>
+    <div class="col-md-4"></div>
+    <div class="signupFieldsWrapper col-md-4">
+        <div class="signupFields" style="text-align: center;">
+            <md-content style="width: 105%; height: 105%;">
+                <form name="signupForm" ng-submit="ctrl.submit()">
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label style="text-align: center;">Username/Email</label>
+                            <input  style="border-radius: 0px" required name="description" ng-model="ctrl.username" ng-pattern="/^.+@.+\..+$/">
+                            <div ng-messages="ctrl.username.description.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="md-maxlength">Has to look like an email.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <div layout-gt-sm="row">
+                        <md-input-container class="md-block" flex-gt-sm>
+                            <label style="text-align: center;">Password</label>
+                            <input type="password" style="border-radius: 0px" minlength="8" required name="description" ng-model="ctrl.password">
+                            <div ng-messages="ctrl.password.description.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="minlength">Has to be at least 8 characters long.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                    <!--<md-button class="md-primary" ng-disabled="signupForm.$invalid">SUBMIT</md-button>-->
+                    <md-button class="md-primary" ng-click="ctrl.submit()">SUBMIT</md-button>
+                </form>
+            </md-content>
+        </div>
     </div>
-    <div class="col-md-12">
-        <input type="password" placeholder="Insert Password"/>
-    </div>
-    <div class="col-md-12">
-        <input type="password" placeholder="Insert Password Again"/>
-    </div>
-    <div class="col-md-12">
-        <button type="submit">Sign Up</button>
-    </div>
-    </div>
+    <div class="col-md-4"></div>
 </div>

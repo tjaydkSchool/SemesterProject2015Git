@@ -12,6 +12,7 @@ angular.module('myApp', [
     'myApp.view2',
     'myApp.view3',
     'myApp.view4',
+    'myApp.view5',
     'myApp.filters',
     'myApp.directives',
     'myApp.factories',
@@ -30,6 +31,12 @@ angular.module('myApp', [
                         })
                         .when('/view3', {
                             templateUrl: 'view3/view3.html'
+                        })
+                        .when('/view4', {
+                            templateUrl: 'view4/view4.html'
+                        })
+                        .when('/view5', {
+                            templateUrl: 'view5/view5.html'
                         })
 
                 $routeProvider.otherwise({redirectTo: '/view1'});

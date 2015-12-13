@@ -48,6 +48,7 @@
         <script src="view2/view2.js"></script>
         <script src="view3/view3.js"></script>
         <script src="view4/view4.js"></script>
+        <script src="view5/view5.js"></script>
         <script src="components/authentication.js"></script>
         <script src="components/filters.js"></script>
         <script src="components/directives.js"></script>
@@ -85,7 +86,7 @@
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <div class="loginWrapper">
                             <ul class="nav navbar-nav navbar-right">
-                                <li class="active" id="loginBtn">Login<span class="sr-only">(current)</span></li>
+                                <li class="active"><p id="loginBtn">Login</p><a style="margin-right: 60px; margin-top: -10px;" href="#/view2">SIGN UP</a></li>
                             </ul>
                         </div>
                     </div><!-- /.navbar-collapse -->
@@ -96,7 +97,8 @@
 
 
 
-            <div ng-view></div>
+        <div ng-view></div>
+
 
 
         <div id="loginScreen">
@@ -119,7 +121,7 @@
 
             $("#closeBtn").click(function () {
                 $("#loginScreen").css("opacity", "0");
-                $("#loginScreen").css("z-index", "0");
+                $("#loginScreen").css("z-index", "-10");
                 $(".searchField").css("opacity", "1");
                 $("#loginBtn").css("opacity", "1");
             });
