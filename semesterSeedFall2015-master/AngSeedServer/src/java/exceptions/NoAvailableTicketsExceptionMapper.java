@@ -31,7 +31,7 @@ public class NoAvailableTicketsExceptionMapper implements ExceptionMapper<NoAvai
     public Response toResponse(NoAvailableTicketsException e) {
                boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
         ErrorMessage em = new ErrorMessage(e, 2, isDebug);
-        return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(2).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
 
     }
     

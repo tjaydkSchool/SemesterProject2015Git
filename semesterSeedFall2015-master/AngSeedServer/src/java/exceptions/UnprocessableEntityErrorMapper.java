@@ -31,7 +31,7 @@ public class UnprocessableEntityErrorMapper implements ExceptionMapper<Unprocess
     public Response toResponse(UnprocessableEntityError e) {
         boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
         ErrorMessage em = new ErrorMessage(e, 422, isDebug);
-        return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(422).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
     }
 
 }

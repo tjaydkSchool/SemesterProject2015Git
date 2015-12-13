@@ -31,7 +31,7 @@ public class IlligalInputExceptionMapper implements ExceptionMapper<IlligalInput
     public Response toResponse(IlligalInputException e) {
         boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
         ErrorMessage em = new ErrorMessage(e, 3, isDebug);
-        return Response.status(Response.Status.NOT_FOUND).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(3).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
 
     }
 

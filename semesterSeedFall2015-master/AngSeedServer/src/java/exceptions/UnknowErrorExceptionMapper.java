@@ -31,7 +31,7 @@ public class UnknowErrorExceptionMapper implements ExceptionMapper<Throwable> {
         boolean isDebug = context.getInitParameter("debug").toLowerCase().equals("true");
         ErrorMessage em = new ErrorMessage(e, 4, isDebug);
         em.setMessage("Unknown error, we are very sorry for the inconvenience");
-        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
+        return Response.status(4).entity(gson.toJson(em)).type(MediaType.APPLICATION_JSON).build();
     }
 
 }
