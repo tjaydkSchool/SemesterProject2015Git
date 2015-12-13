@@ -30,10 +30,10 @@ public class FlightReservation {
     Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
     @POST
-    @Path("{airlineName}")
+    @Path("{airlineName}/{from}/{to}")
     @Consumes("application/json")
     @Produces("application/json")
-    public String CreateReservation(String reservation, @PathParam("airlineName") String airlineName) throws NoAvailableTicketsException, IOException {
-            return f.updateSeats(reservation, gson.fromJson(reservation, Reservation.class), airlineName);
+    public String CreateReservation(String reservation, @PathParam("airlineName") String airlineName, @PathParam("from") String from, @PathParam("to") String to) throws NoAvailableTicketsException, IOException {
+            return f.updateSeats(reservation, gson.fromJson(reservation, Reservation.class), airlineName, from, to);
     }
 }

@@ -30,20 +30,23 @@ public class ReservationFacade {
     private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
     private EntityManager em = emf.createEntityManager();
 
-    public void createReservation(Reservation reservation) {
+    public void createReservation(Reservation reservation, String from, String to) {
         em.getTransaction().begin();
         for (int i = 0; i < reservation.getPassengers().size(); i++) {
             Passengers p = reservation.getPassengers().get(i);
             em.persist(p);
         }
         em.getTransaction().commit();
+        Reservation res = reservation;
 
+        res.setOrigin(from);
+        res.setDestination(to);
         em.getTransaction().begin();
         em.persist(reservation);
         em.getTransaction().commit();
     }
 
-    public String updateSeats(String reservation, Reservation res, String AirlineName) throws MalformedURLException, IOException, NoAvailableTicketsException {
+    public String updateSeats(String reservation, Reservation res, String AirlineName, String from, String to) throws MalformedURLException, IOException, NoAvailableTicketsException {
         String urlToUse = "";
 
         Query query = em.createQuery("SELECT u.url from URL u WHERE u.airlineName = '" + AirlineName + "'");
@@ -64,7 +67,7 @@ public class ReservationFacade {
             while (scan.hasNext()) {
                 jsonStr = jsonStr + scan.nextLine();
             }
-            createReservation(res);
+            createReservation(res, from, to);
             return jsonStr;
         } catch (IOException e) {
             throw new NoAvailableTicketsException();
@@ -100,6 +103,6 @@ public class ReservationFacade {
                 + "          \"lastName\": \"Peterson\"\n"
                 + "        }\n"
                 + "    ]\n"
-                + "}", r, "The Giant Horn Airline");
+                + "}", r, "The Giant Horn Airline","CPH", "LHR");
     }
 }
