@@ -165,7 +165,7 @@ public class UserRestTest {
                 get("/user/thisIsNotAUser").
                 then().
                 statusCode(404).
-                body("error.message", equalTo("This user has no reservations"));
+                body("error.message", equalTo("There is no user with the given username"));
     }
 
 }

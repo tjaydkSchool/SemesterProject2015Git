@@ -119,12 +119,16 @@ public class UserFacade {
     }
 
     public List<Reservation> getReservations(String userName) throws CustomNotFoundException {
-        Query query = em.createNamedQuery("Reservation.findReservations");
-        query.setParameter("userName", userName);
-        if (!(query.getResultList().isEmpty())) {
-            return query.getResultList();
+        if (em.find(User.class, userName) != null) {
+            Query query = em.createNamedQuery("Reservation.findReservations");
+            query.setParameter("userName", userName);
+            if (!(query.getResultList().isEmpty())) {
+                return query.getResultList();
+            } else {
+                throw new CustomNotFoundException("This user has no reservations");
+            }
         } else {
-            throw new CustomNotFoundException("This user has no reservations");
+            throw new CustomNotFoundException("There is no user with the given username");
         }
     }
 }
