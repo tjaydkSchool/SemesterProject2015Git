@@ -8,6 +8,7 @@ package facades;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import deploy.DeploymentConfiguration;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -35,7 +36,7 @@ import static utils.LoggerHandler.log;
 public class SearchFacade {
 
     
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.puName);
     private EntityManager em = emf.createEntityManager();
 
     public static void main(String[] args) throws IOException {

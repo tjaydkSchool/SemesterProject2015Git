@@ -5,6 +5,7 @@
  */
 package facades;
 
+import deploy.DeploymentConfiguration;
 import entity.Passengers;
 import entity.Reservation;
 import exceptions.NoAvailableTicketsException;
@@ -27,7 +28,7 @@ import javax.persistence.Query;
  */
 public class ReservationFacade {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.puName);
     private EntityManager em = emf.createEntityManager();
 
     public void createReservation(Reservation reservation, String from, String to) {

@@ -1,6 +1,7 @@
 package facades;
 
 import entity.Reservation;
+import deploy.DeploymentConfiguration;
 import entity.User;
 import exceptions.CustomNotFoundException;
 import exceptions.UnprocessableEntityError;
@@ -18,7 +19,7 @@ import security.PasswordHash;
 
 public class UserFacade {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.puName);
     private EntityManager em = emf.createEntityManager();
 
     public UserFacade() {
