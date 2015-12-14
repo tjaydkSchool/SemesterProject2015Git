@@ -1,7 +1,8 @@
 angular.module('mySignUpModule', [])
         .controller('mySignUpController', ['$rootScope', '$http', '$location', function ($rootScope, $http, $location) {
                 var self = this;
-                self.submit = function () {
+                $rootScope.usersubmit = function () {
+//                    alert("signup here");
                     var submitData = {
                         url: 'api/user',
                         method: 'POST',
@@ -15,7 +16,7 @@ angular.module('mySignUpModule', [])
                         $(".searchField").css("opacity", "0");
                         $("#loginBtn").css("opacity", "0");
                     }, function error(data, status) {
-                        alert(status);
+                        alert(data.error(error));
                     });
                 };
             }])

@@ -5,6 +5,7 @@
  */
 package facades;
 
+import deploy.DeploymentConfiguration;
 import entity.Log;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import javax.persistence.Query;
  */
 public class LogFacade {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.puName);
     private EntityManager em = emf.createEntityManager();
 
     public void LogDestination(String to) {

@@ -3,7 +3,7 @@
     <div class="signupFieldsWrapper col-md-4">
         <div class="signupFields" style="text-align: center;">
             <md-content style="width: 105%; height: 105%;">
-                <form name="signupForm" ng-submit="ctrl.submit()">
+                <form name="signupForm" ng-submit="usersubmit()">
                     <div layout-gt-sm="row">
                         <md-input-container class="md-block" flex-gt-sm>
                             <label style="text-align: center;">Username/Email</label>
@@ -24,8 +24,8 @@
                             </div>
                         </md-input-container>
                     </div>
-                    <!--<md-button class="md-primary" ng-disabled="signupForm.$invalid">SUBMIT</md-button>-->
-                    <md-button class="md-primary" ng-click="ctrl.submit()">SUBMIT</md-button>
+                    <!--<md-button class="md-primary" >SUBMIT</md-button>-->
+                    <md-button ng-click="usersubmit()" class="md-primary" ng-disabled="signupForm.$invalid">SUBMIT</md-button>
                 </form>
             </md-content>
         </div>

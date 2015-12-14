@@ -65,7 +65,6 @@ angular.module('myApp.security', [])
                                         "<a style='color: black;' href='#/view4'>MY ACCOUNT</a></li>" +
                                         "</ul>");
                                 $http.get('api/user/' + $scope.username).success(function (data) {
-                                    alert(data.length);
                                     $rootScope.userReservations = data;
                                 });
                             } else if ($scope.isAdmin === true) {

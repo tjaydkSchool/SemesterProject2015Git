@@ -5,6 +5,7 @@
  */
 package facades;
 
+import deploy.DeploymentConfiguration;
 import entity.Reservation;
 import java.util.List;
 import javax.persistence.EntityManager;
@@ -18,7 +19,7 @@ import javax.persistence.Query;
  */
 public class AdminFacade {
 
-    private EntityManagerFactory emf = Persistence.createEntityManagerFactory("SemesterProjectDbTestPU");
+    private EntityManagerFactory emf = Persistence.createEntityManagerFactory(DeploymentConfiguration.puName);
     private EntityManager em = emf.createEntityManager();
     
     public List<Reservation> getReservations() {

@@ -132,4 +132,25 @@ public class UserFacade {
             throw new CustomNotFoundException("There is no user with the given username");
         }
     }
+
+    public void createUserAndAdmin() throws NoSuchAlgorithmException, InvalidKeySpecException {
+        User admin = em.find(User.class, "Admin");
+        if(admin == null) {
+            User createAdmin = new User();
+            User createUser = new User();
+            
+            createAdmin.setUsername("Admin");
+            createAdmin.setPassword(PasswordHash.createHash("test"));
+            createAdmin.AddRole("Admin");
+            
+            createUser.setUsername("User");
+            createUser.setPassword(PasswordHash.createHash("test"));
+            createUser.AddRole("User");
+            
+            em.getTransaction().begin();
+            em.persist(createAdmin);
+            em.persist(createUser);
+            em.getTransaction().commit();
+        }
+    }
 }

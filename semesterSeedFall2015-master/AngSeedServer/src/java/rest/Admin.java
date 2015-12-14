@@ -13,7 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("admin")
-//@RolesAllowed("Admin")
+@RolesAllowed("Admin")
 public class Admin {
 
     Gson gson;

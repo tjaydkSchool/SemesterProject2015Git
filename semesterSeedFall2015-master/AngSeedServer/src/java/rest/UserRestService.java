@@ -7,6 +7,8 @@ import entity.User;
 import exceptions.CustomNotFoundException;
 import exceptions.UnprocessableEntityError;
 import facades.UserFacade;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import javax.annotation.security.RolesAllowed;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -62,4 +64,9 @@ public class UserRestService {
       return username;
   }
  
+  @GET
+  @Path("database")
+  public void createUserAndAdmin() throws NoSuchAlgorithmException, InvalidKeySpecException {
+      facade.createUserAndAdmin();
+  }
 }
