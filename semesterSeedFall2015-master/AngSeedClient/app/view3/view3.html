@@ -1,6 +1,7 @@
-<div style="margin-top: 20%; background-color: transparent; z-index: 1000;" class="row">
+<div style="margin-top: 15%; background-color: transparent; z-index: 1000;" class="row">
     <div data-ng-controller="View3Ctrl as ctrl">
-        <div class="resultsList">
+        <h3><a href="#/view1">New search</a></h3>
+        <div class="resultsList" style="height: 500px; overflow-x: hidden; overflow-y: scroll;">
             <h3>Results</h3>
             <div ng-repeat="result in ctrl.results">
                 <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights" style="z-index: 200;">

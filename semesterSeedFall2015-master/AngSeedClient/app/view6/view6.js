@@ -12,6 +12,7 @@ angular.module('myApp.view6', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
                 self.reserveeName = "";
                 self.reserveePhone = "";
                 self.flightD = "";
+                self.error = "";
 
 
 
@@ -28,22 +29,35 @@ angular.module('myApp.view6', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
                         "ReserveeEmail": $rootScope.username, //tages fra user login
                         "flightID": self.flightD, // tages fra ui-accordion information
                         "Passengers": $rootScope.passengersCount});
-                    self.reserveFunctionAsJSON()
+                    self.reserveFunctionAsJSON();
                 };
 
                 self.reserveFunctionAsJSON = function () {
-                    if ($rootScope.username === "" || $rootScope.username === null) {
-                        var res = $http.post('api/flightreservation/' + self.airline + "/" + self.fromDestS + "/" + self.toDestS, self.reserveTryVariable); //arline bliver taget fra uib-accorsdion information
-                        res.success(function (data, status, headers, config) {
-                            self.message = data;
-                            alert("Reservation completed");
-                        });
-                        res.error(function (data, status, headers, config) {
-                        });
+                    self.error = "";
+                    if ($rootScope.username == "" || $rootScope.username == null) {
+                        self.error = "You have to login to make a reservation";
                     } else {
-                        alert("You have to login");
-                    }
-                    ;
+
+                        var req = {
+                            method: 'POST',
+                            url: 'api/flightreservation/' + self.airline + "/" + self.fromDestS + "/" + self.toDestS,
+                            headers: {
+                                'Content-Type': "application/json"
+                            },
+                            data: self.reserveTryVariable
+                        };
+
+                        $http(req).then(function () {
+
+                        }, function () {
+                            self.error = "Reservation complete";
+                            $http.get('api/user/' + $scope.username).success(function (data) {
+                                $rootScope.userReservations = data;
+                            });
+                            window.location.href = "#/view1";
+                        });
+
+                    };
                 };
             }]);
 

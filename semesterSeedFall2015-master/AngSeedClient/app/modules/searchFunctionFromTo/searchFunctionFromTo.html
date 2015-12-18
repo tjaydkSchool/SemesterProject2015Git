@@ -1,6 +1,6 @@
 <div ng-controller="mySearchFunctionFromToController as ctrl">
     <div class="row searchField">
-        <md-content style="width: 100%; height: 400px; border-radius: 0px; z-index: 0; background-color: white;">
+        <md-content style="width: 100%; height: 400px; border-radius: 0px; z-index: 0; background-color: white; overflow: hidden;">
             <md-toolbar>
                 <h2 class="md-toolbar-tools">
                     <span>TRIP SEARCHTOOL</span>
@@ -110,7 +110,10 @@
                         </div>
                     </div>
                     <div class="animate-switch" ng-switch-when="2">
-                        <h1>{{ctrl.hotDest[0].city}}</h1>
+                        <div style="width: 100%; height: 300px; background-image: url({{ctrl.hotImage}}); background-position: center center; background-size: 100% auto; color: white;">
+                            <h2 style="padding-top: 50px;">{{ctrl.hotDest[0].city}}</h2>
+                            <h3>Temp: {{ctrl.hotTemp}} &deg;C</h3>
+                        </div>
                     </div>
                 </div>
         </md-content>

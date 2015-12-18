@@ -1,11 +1,58 @@
-<div style="margin-top: 20%; background-color: transparent; z-index: 1000;" class="row">
+<div style="margin-top: 15%; background-color: transparent; z-index: 1000;" class="row">
     <div data-ng-controller = "View6Ctrl as ctrl">
-        <input ng-model="ctrl.reserveeName" placeholder="Insert Name"/>
-        <input ng-model="ctrl.reserveePhone" placeholder="Insert Phone"/>
-        <div ng-repeat="passengers in passengersCount">
-            <input ng-model="passengers.firstName"placeholder="Insert Passenger Firstname"/>
-            <input ng-model="passengers.lastName" placeholder="Insert Passenger Lastname"/>
+        <div class="container">
+            <md-content style="width: 100%; height: 500px; overflow-x: hidden; overflow-y: scroll;">
+                <h3>{{ctrl.error}}</h3>
+                <div layout="row">
+                    <div flex></div>
+                    <md-input-container class="md-block" flex>
+                        <label style="text-align: center;">Reserve name</label>
+                        <input  style="border-radius: 0px" required name="resFirstname" ng-model="ctrl.reserveeName">
+                        <div ng-messages="ctrl.reserveeName.resFirstname.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                    <div flex></div>
+                </div>
+                <div layout="row">
+                    <div flex></div>
+                    <md-input-container class="md-block" flex>
+                        <label style="text-align: center;">Reserve phone</label>
+                        <input  style="border-radius: 0px" required name="resPhone" ng-model="ctrl.reserveePhone">
+                        <div ng-messages="ctrl.reserveePhone.resPhone.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                    <div flex></div>
+                </div>
+
+
+
+                <div ng-repeat="passengers in passengersCount">
+                    <div layout="row">
+                        <md-input-container class="md-block" flex>
+                            <label style="text-align: center;">Passenger firstname</label>
+                            <input  style="border-radius: 0px" required name="resPhone" ng-model="passengers.firstName">
+                            <div ng-messages="passengers.firstName.resPhone.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                        <md-input-container class="md-block" flex>
+                            <label style="text-align: center;">Passenger lastname</label>
+                            <input  style="border-radius: 0px" required name="resPhone" ng-model="passengers.lastName">
+                            <div ng-messages="passengers.lastName.resPhone.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+                <div layout="row">
+                    <div flex></div>
+                    <button type="button" ng-click="ctrl.showIndexes()">Reserve</button>
+                    <div flex></div>
+                </div>        
+                </md-content>
         </div>
-        <button type="button" ng-click="ctrl.showIndexes()">Reserve</button>
     </div>
+    <h3><a href="#/view1">New search</a></h3>
 </div>

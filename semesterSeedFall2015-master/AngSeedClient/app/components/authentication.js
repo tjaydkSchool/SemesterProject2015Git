@@ -1,6 +1,5 @@
 angular.module('myApp.security', [])
         .controller('AppLoginCtrl', function ($scope, $rootScope, $http, $window, $location) {
-
             function url_base64_decode(str) {
                 var output = str.replace('-', '+').replace('_', '/');
                 switch (output.length % 4) {

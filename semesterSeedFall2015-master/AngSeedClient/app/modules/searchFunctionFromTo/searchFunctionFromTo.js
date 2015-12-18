@@ -16,6 +16,8 @@ angular.module('mySearchFunctionFromToModule', [])
                 self.searchTextFrom = null;
                 self.querySearch = querySearch;
                 self.cities = [];
+                self.hotImage = null;
+                self.hotTemp = -273.15;
                 $http.get('json/cities.json').success(function (response) {
                     self.cities = response;
                 });
@@ -25,16 +27,16 @@ angular.module('mySearchFunctionFromToModule', [])
                         var dest = item;
                         angular.forEach(self.cities, function (item) {
                             if (item.IATA.indexOf(dest) === 0) {
+
                                 $.ajax({
                                     beforeSend: function (xhrObj) {
-                                        xhrObj.setRequestHeader("Content-Type", "application/json");
-                                        xhrObj.setRequestHeader("Api-Key", "gfzeggrdzegkpqahe9xcwvvf");
-                                        xhrObj.setRequestHeader("Postman-Token", "a791af09-d9f7-6249-6d55-539065f49dd5");
+                                        xhrObj.setRequestHeader("Content-Type", "application/xml");
+                                        xhrObj.setRequestHeader("Authorization", "Basic OjVKcTMzOFVJQU8wdlM0eHB6clpwVXNlZ3ZuSkRtNlRzR0ovSHNMTG1OWkE=");
                                     },
                                     type: "GET",
-                                    url: "https://api.gettyimages.com:443/v3/search/videos?phrase=" + item.city,
+                                    url: "https://api.datamarket.azure.com/Bing/Search/Image?Query=%27" + item.city + "%27&$format=json",
                                     success: function (response) {
-                                        alert(response.videos[0].display_sizes[0].uri);
+                                        self.hotImage = response.d.results[0].MediaUrl;
                                     }
                                 });
                                 $.ajax({
@@ -43,14 +45,13 @@ angular.module('mySearchFunctionFromToModule', [])
                                     dataType: "JSONP",
                                     jsonpCallback: 'callback',
                                     success: function (response) {
-                                        var temp = -273.15;
-                                        temp += response.main.temp;
+                                        self.hotTemp += response.main.temp;
                                     }
                                 });
-
                                 self.hotDest.push(item);
                             }
-                        });
+                        }
+                        );
                     });
                 });
                 function querySearch(query) {
@@ -67,6 +68,7 @@ angular.module('mySearchFunctionFromToModule', [])
                 self.searchFunctionFromTo = function () {
                     self.errorMsg = null;
                     //  FORMAT THE DATE
+                    $('body').css("cursor","wait");
                     var year = self.myDate.getFullYear();
                     var month = self.myDate.getMonth();
                     var day = self.myDate.getDate();
@@ -78,10 +80,12 @@ angular.module('mySearchFunctionFromToModule', [])
                     if ($scope.selectedTabIndex === 0) {
                         if (self.selectedItemFrom === null || self.selectedItemTo === null) {
                             self.errorMsg = "Please choose destinations from dropdown";
+                            $('body').css("cursor","auto");
                         }
                     } else {
                         if (self.selectedItemFrom === null) {
                             self.errorMsg = "Please choose destinations from dropdown";
+                            $('body').css("cursor","auto");
                         }
                     }
 
@@ -102,12 +106,14 @@ angular.module('mySearchFunctionFromToModule', [])
                                 self.errorMsg = "Sorry, no results found";
                             }
                             else {
+                                $('body').css("cursor","auto");
                                 window.location.href = "#/view3";
                             }
                         }, function errorCallback(response) {
                             self.flightlist = "No matches found";
                             $rootScope.trips = [];
                             self.errorMsg = "Sorry, something went wrong";
+                            $('body').css("cursor","auto");
                         });
                     } else if ($scope.selectedTabIndex === 1) {
                         $http({
@@ -126,12 +132,14 @@ angular.module('mySearchFunctionFromToModule', [])
                                 self.errorMsg = "Sorry, no results found";
                             }
                             else {
+                                $('body').css("cursor","auto");
                                 window.location.href = "#/view3";
                             }
                         }, function errorCallback(response) {
                             self.flightlist = "No matches found";
                             $rootScope.trips = [];
                             self.errorMsg = "Sorry, no results found";
+                            $('body').css("cursor","auto");
                         });
                     }
                 }
