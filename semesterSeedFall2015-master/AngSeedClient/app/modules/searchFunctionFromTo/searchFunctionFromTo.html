@@ -10,106 +10,109 @@
                      md-selected="selectedTabIndex">
                 <md-tab label="Find trip"></md-tab> 
                 <md-tab label="Feeling lucky"></md-tab> 
+                <md-tab label="Hot destinations"></md-tab>
             </md-tabs>
 
             <div style="z-index: 100;" id="content"ui-view flex> 
                 <div class="animate-switch-container" ng-switch on="selectedTabIndex">
                     <div class="animate-switch" ng-switch-when="0">
                         <div class="searchFieldWrapper">
-                            <div class="searchField">
-                                <form class="container text-center">
-                                    <div class="row searchInputFields">
-                                        <div class="col-md-3 col-sm-6">
-                                            <form ng-submit="$event.preventDefault()" name="searchForm"  style="z-index: 1000;">
-                                                <div layout-gt-sm="row">
-                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteFieldFrom" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemFrom" md-search-text="ctrl.searchTextFrom" md-items="item in ctrl.querySearch(ctrl.searchTextFrom)" md-item-text="item.city" md-floating-label="From">
-                                                        <md-item-template>
-                                                            <span md-highlight-text="ctrl.searchTextFrom">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
-                                                        </md-item-template>
-                                                        <div ng-messages="searchForm.autocompleteFieldFrom.$error" ng-if="searchForm.autocompleteField.$touched">
-                                                            <div ng-message="required">You <b>must</b> enter a from destination.</div>
-                                                            <div ng-message="minlength">Your entry is not long enough.</div>
-                                                            <div ng-message="maxlength">Your entry is too long.</div>
-                                                        </div>
-                                                    </md-autocomplete>
+                            <div class="searchInputFields">
+                                <form ng-submit="$event.preventDefault()" name="searchForm">
+                                    <div layout="row" layout-xs='column'>
+                                        <div class='col-md-3' flex>
+                                            <md-autocomplete required="required" md-input-name="autocompleteField" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemFrom" md-search-text="ctrl.searchTextFrom" md-items="item in ctrl.querySearch(ctrl.searchTextFrom)" md-item-text="item.city + ', ' + item.country + ', ' + item.IATA" md-floating-label="Pick a from destination">
+                                                <md-item-template>
+                                                    <span md-highlight-text="ctrl.searchTextFrom">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
+                                                </md-item-template>
+                                                <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                                    <div ng-message="required">You <b>must</b> pick a from destination.</div>
                                                 </div>
-                                            </form>
+                                            </md-autocomplete>
                                         </div>
-                                        <div class="col-md-3 col-sm-6">
-                                            <form ng-submit="$event.preventDefault()" name="searchTo">
-                                                <div layout-gt-sm="row">
-                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteFieldTo" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemTo" md-search-text="ctrl.searchTextTo" md-items="item in ctrl.querySearch(ctrl.searchTextTo)" md-item-text="item.city" md-floating-label="To">
-                                                        <md-item-template>
-                                                            <span md-highlight-text="ctrl.searchTextTo">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
-                                                        </md-item-template>
-                                                        <div ng-messages="searchForm.autocompleteFieldTo.$error" ng-if="searchForm.autocompleteField.$touched">
-                                                            <div ng-message="required">You <b>must</b> enter a to destination.</div>
-                                                            <div ng-message="minlength">Your entry is not long enough.</div>
-                                                            <div ng-message="maxlength">Your entry is too long.</div>
-                                                        </div>
-                                                    </md-autocomplete>
+                                        <div class='col-md-3' flex>
+                                            <md-autocomplete flex="" required="required" md-input-name="autocompleteFieldTo" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemTo" md-search-text="ctrl.searchTextTo" md-items="item in ctrl.querySearch(ctrl.searchTextTo)" md-item-text="item.city + ', ' + item.country + ', ' + item.IATA" md-floating-label="Pick a to destination">
+                                                <md-item-template>
+                                                    <span md-highlight-text="ctrl.searchTextTo">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
+                                                </md-item-template>
+                                                <div ng-messages="searchForm.autocompleteFieldTo.$error" ng-if="searchForm.autocompleteFieldTo.$touched">
+                                                    <div ng-message="required">You <b>must</b> pick a to destination.</div>
                                                 </div>
-                                            </form>
+                                            </md-autocomplete>
                                         </div>
-                                        <div class="col-md-3 col-sm-6">
-                                            <md-input-container class="md-block" flex-gt-sm>
+                                        <div class='col-md-3' flex>
+                                            <md-input-container>
                                                 <label>Tickets</label>
-                                                <input ng-model="ctrl.numberOfTickets" required="required" md-input-name="numberofseats">
-                                                <div ng-messages="searchForm.numberofseats.$error" ng-if="searchForm.autocompleteField.$touched">
-                                                            <div ng-message="required">You <b>must</b> enter number of tickets.</div>
-                                                        </div>
+                                                <input required="required" name='numberOfTickets' ng-model="ctrl.numberOfTickets">
+                                                <div ng-messages="ctrl.numberOfTickets.numberOfTickets.$error">
+                                                    <div ng-message="required">Please enter number of tickets.</div>
+                                                </div>
                                             </md-input-container>
                                         </div>
-                                        <div class="col-md-3 col-sm-6">
+                                        <div class='col-md-3' flex>
                                             <md-datepicker ng-model="ctrl.myDate" md-placeholder="Enter date"></md-datepicker>
                                         </div>
-                                        <div class="col-md-12">
-                                            <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()"><i class="glyphicon glyphicon-search"></i></button>
-                                        </div>
+                                    </div>
+                                    <div layout='row' style='margin-top: -20px'>
+                                        <div flex></div>
+                                        <div flex><p>{{ctrl.errorMsg}}</p></div>
+                                        <div flex></div>
+                                    </div>
+                                    <div layout="row">
+                                        <div flex></div>
+                                        <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()" ng-disabled="searchForm.$invalid"><i class="glyphicon glyphicon-search"></i></button>
+                                        <div flex></div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="animate-switch" ng-switch-when="1">
+                    <div class="animate-switch" ng-switch-when="1">
                         <div class="searchFieldWrapper">
-                            <div class="searchField">
-                                <form class="container text-center">
-                                    <div class="row searchInputFields">
-                                        <div class="col-md-4 col-xs-12">
-                                            <form ng-submit="$event.preventDefault()" name="searchForm">
-                                                <div layout-gt-sm="row">
-                                                    <md-autocomplete flex="" required="required" md-input-name="autocompleteField" md-input-minlength="2" md-input-maxlength="50" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemFrom" md-search-text="ctrl.searchTextFrom" md-items="item in ctrl.querySearch(ctrl.searchTextFrom)" md-item-text="item.city" md-floating-label="From">
-                                                        <md-item-template>
-                                                            <span md-highlight-text="ctrl.searchTextFrom">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
-                                                        </md-item-template>
-                                                        <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
-                                                            <div ng-message="required">You <b>must</b> enter a from destination.</div>
-                                                            <div ng-message="minlength">Your entry is not long enough.</div>
-                                                            <div ng-message="maxlength">Your entry is too long.</div>
-                                                        </div>
-                                                    </md-autocomplete>
+                            <div class="searchInputFields">
+                                <form ng-submit="$event.preventDefault()" name="searchForm">
+                                    <div layout="row" layout-xs='column'>
+                                        <div class='col-md-4' flex>
+                                            <md-autocomplete required="required" md-input-name="autocompleteField" md-no-cache="ctrl.noCache" md-selected-item="ctrl.selectedItemFrom" md-search-text="ctrl.searchTextFrom" md-items="item in ctrl.querySearch(ctrl.searchTextFrom)" md-item-text="item.city + ', ' + item.country + ', ' + item.IATA" md-floating-label="Pick a from destination">
+                                                <md-item-template>
+                                                    <span md-highlight-text="ctrl.searchTextFrom">{{item.city}}, {{item.country}}, {{item.IATA}}</span>
+                                                </md-item-template>
+                                                <div ng-messages="searchForm.autocompleteField.$error" ng-if="searchForm.autocompleteField.$touched">
+                                                    <div ng-message="required">You <b>must</b> pick a from destination.</div>
                                                 </div>
-                                            </form>
+                                            </md-autocomplete>
                                         </div>
-                                        <div class="col-md-4 col-xs-12">
-                                            <md-input-container class="md-block" flex-gt-sm>
+                                        <div class='col-md-4' flex>
+                                            <md-input-container>
                                                 <label>Tickets</label>
-                                                <input ng-model="ctrl.numberOfTickets">
+                                                <input required="required" name='numberOfTickets' ng-model="ctrl.numberOfTickets">
+                                                <div ng-messages="ctrl.numberOfTickets.numberOfTickets.$error">
+                                                    <div ng-message="required">Please enter number of tickets.</div>
+                                                </div>
                                             </md-input-container>
                                         </div>
-                                        <div class="col-md-4 col-xs-12">
+                                        <div class='col-md-4' flex>
                                             <md-datepicker ng-model="ctrl.myDate" md-placeholder="Enter date"></md-datepicker>
                                         </div>
-                                        <div class="col-md-12">
-                                            <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()"><i class="glyphicon glyphicon-search"></i></button>
-                                        </div>
+                                    </div>
+                                    <div layout='row' style='margin-top: -20px'>
+                                        <div flex></div>
+                                        <div flex><p>{{ctrl.errorMsg}}</p></div>
+                                        <div flex></div>
+                                    </div>
+                                    <div layout="row">
+                                        <div flex></div>
+                                        <button class="btn btn-primary searchButton" ng-click="ctrl.searchFunctionFromTo()" ng-disabled="searchForm.$invalid"><i class="glyphicon glyphicon-search"></i></button>
+                                        <div flex></div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
                     </div>
+                    <div class="animate-switch" ng-switch-when="2">
+                        <h1>{{ctrl.hotDest[0].city}}</h1>
+                    </div>
                 </div>
-            </div>
         </md-content>
     </div>
 </div>

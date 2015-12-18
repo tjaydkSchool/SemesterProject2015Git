@@ -1,20 +1,22 @@
-<div data-ng-controller="View3Ctrl as ctrl">
-    <div class="resultsList">
-        <h3>Results</h3>
-        <div ng-repeat="result in ctrl.results">
-            <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights" style="z-index: 200;">
-                <div class="col-md-3"></div>
-                <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
-                    <div class="resultInformation">
-                        <p>Flight ID: {{res.flightID}}</p>
-                        <p>Seats Remaining: {{res.numberOfSeats}}</p>
-                        <p>Flight Date: {{res.date}}</p>
-                        <p>Travel Time: {{res.travelTime}} Minutes</p>
-                        <button type="button" ng-click="ctrl.toReservationPage(res.flightID, result.airline, res.origin, res.destination)">Reserve</button>
-                    </div>
-                </uib-accordion-group>
-                <div class="col-md-3"></div>
-            </uib-accordion>
+<div style="margin-top: 20%; background-color: transparent; z-index: 1000;" class="row">
+    <div data-ng-controller="View3Ctrl as ctrl">
+        <div class="resultsList">
+            <h3>Results</h3>
+            <div ng-repeat="result in ctrl.results">
+                <uib-accordion class="resultList col-md-12" close-others="oneAtATime" ng-repeat="res in result.flights" style="z-index: 200;">
+                    <div class="col-md-3"></div>
+                    <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
+                        <div class="resultInformation">
+                            <p>Flight ID: {{res.flightID}}</p>
+                            <p>Seats Remaining: {{res.numberOfSeats}}</p>
+                            <p>Flight Date: {{res.date}}</p>
+                            <p>Travel Time: {{res.travelTime}} Minutes</p>
+                            <button type="button" ng-click="ctrl.toReservationPage(res.flightID, result.airline, res.origin, res.destination)">Reserve</button>
+                        </div>
+                    </uib-accordion-group>
+                    <div class="col-md-3"></div>
+                </uib-accordion>
+            </div>
         </div>
     </div>
 </div>

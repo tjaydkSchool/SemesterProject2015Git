@@ -8,22 +8,9 @@ angular.module('myApp.view3', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
             }])
         .controller('View3Ctrl', ['$scope', '$rootScope', '$uibModal', '$http', '$location', function ($scope, $rootScope, $http, $location) {
 
-
-
-
-
                 var self = this;
                 self.results = [];
                 self.results = $rootScope.trips;
-
-
-
-//                self.passengersThingy = [];
-//                self.passengersThingy.length = $rootScope.passengersCount.length;
-//                self.passengersThingy = [
-//                    {
-//                        firstName : "",
-//                        lastName : ""
 
                 self.reserveTryVariable = ({
                     "numberOfSeats": $rootScope.passengersCounter, //tages fra søgningen
@@ -35,12 +22,10 @@ angular.module('myApp.view3', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
                 });
 
                 self.toReservationPage = function (flight, airlineName, from, to) {
-                    alert("start of function");
                     $rootScope.flightrootS = flight;
                     $rootScope.airlineNameRoot = airlineName;
                     $rootScope.fromDest = from;
                     $rootScope.toDest = to;
-                    alert("rootS flightID   "+$rootScope.flightrootS);
                     $rootScope.passengersCount = [];
                     for (var i = 0; i < $rootScope.passengersCounter - 1; i++) {
                         $rootScope.passengersCount.push({
@@ -51,6 +36,5 @@ angular.module('myApp.view3', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
                     ;
                     
                     window.location.href = "#/view6";
-                    alert("end function");
                 };
             }]);

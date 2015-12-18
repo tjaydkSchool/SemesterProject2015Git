@@ -3,8 +3,8 @@
         <input ng-model="ctrl.reserveeName" placeholder="Insert Name"/>
         <input ng-model="ctrl.reserveePhone" placeholder="Insert Phone"/>
         <div ng-repeat="passengers in passengersCount">
-            <input ng-model="passengers.firstName"placeholder="Insert Passenger Firstname"/><span>{{passengers.firstName}}</span>
-            <input placeholder="Insert Passenger Lastname"/>
+            <input ng-model="passengers.firstName"placeholder="Insert Passenger Firstname"/>
+            <input ng-model="passengers.lastName" placeholder="Insert Passenger Lastname"/>
         </div>
         <button type="button" ng-click="ctrl.showIndexes()">Reserve</button>
     </div>

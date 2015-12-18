@@ -16,9 +16,8 @@ angular.module('myApp.view6', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
 
 
                 self.showIndexes = function () {
-                    alert("flightID rootscope    "+$rootScope.flightrootS);
                     self.flightD = $rootScope.flightrootS;
-                    self.airlineshit = $rootScope.airlineNameRoot;
+                    self.airline = $rootScope.airlineNameRoot;
                     self.fromDestS = $rootScope.fromDest;
                     self.toDestS = $rootScope.toDest;
                     
@@ -34,12 +33,12 @@ angular.module('myApp.view6', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
 
                 self.reserveFunctionAsJSON = function () {
 
-                    var res = $http.post('api/flightreservation/' + self.airlineshit + "/"+ self.fromDestS +"/"+ self.toDestS, self.reserveTryVariable); //arline bliver taget fra uib-accorsdion information
+                    var res = $http.post('api/flightreservation/' + self.airline + "/"+ self.fromDestS +"/"+ self.toDestS, self.reserveTryVariable); //arline bliver taget fra uib-accorsdion information
                     res.success(function (data, status, headers, config) {
                         self.message = data;
+                        alert("Reservation completed");
                     });
                     res.error(function (data, status, headers, config) {
-                        alert("failure message: " + JSON.stringify({data: data}))
                     });
                 };
             }]);

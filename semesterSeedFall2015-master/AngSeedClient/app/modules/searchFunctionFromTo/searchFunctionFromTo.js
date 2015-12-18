@@ -3,7 +3,10 @@ angular.module('mySearchFunctionFromToModule', [])
 //                $("#datepicker").datepicker();
                 var self = this;
                 self.myDate = new Date();
+                self.hotDest = [];
+                self.hotDestVid = [];
                 self.flightlist = [];
+                self.errorMsg = null;
 
                 $scope.selectedTabIndex = 0;
 
@@ -15,6 +18,40 @@ angular.module('mySearchFunctionFromToModule', [])
                 self.cities = [];
                 $http.get('json/cities.json').success(function (response) {
                     self.cities = response;
+                });
+
+                $http.get('api/flightinfo/hotdestinations').success(function (response) {
+                    angular.forEach(response, function (item) {
+                        var dest = item;
+                        angular.forEach(self.cities, function (item) {
+                            if (item.IATA.indexOf(dest) === 0) {
+                                $.ajax({
+                                    beforeSend: function (xhrObj) {
+                                        xhrObj.setRequestHeader("Content-Type", "application/json");
+                                        xhrObj.setRequestHeader("Api-Key", "gfzeggrdzegkpqahe9xcwvvf");
+                                        xhrObj.setRequestHeader("Postman-Token", "a791af09-d9f7-6249-6d55-539065f49dd5");
+                                    },
+                                    type: "GET",
+                                    url: "https://api.gettyimages.com:443/v3/search/videos?phrase=" + item.city,
+                                    success: function (response) {
+                                        alert(response.videos[0].display_sizes[0].uri);
+                                    }
+                                });
+                                $.ajax({
+                                    type: "GET",
+                                    url: "http://api.openweathermap.org/data/2.5/weather?q=" + item.city + "&APPID=e541fe2f77e0ef1c60a19d68fc5750b7",
+                                    dataType: "JSONP",
+                                    jsonpCallback: 'callback',
+                                    success: function (response) {
+                                        var temp = -273.15;
+                                        temp += response.main.temp;
+                                    }
+                                });
+
+                                self.hotDest.push(item);
+                            }
+                        });
+                    });
                 });
                 function querySearch(query) {
                     var q = query.toLowerCase();
@@ -28,18 +65,30 @@ angular.module('mySearchFunctionFromToModule', [])
                 }
                 ;
                 self.searchFunctionFromTo = function () {
-                    console.log(self.selectedItemFrom.IATA);
-//                    FORMAT THE DATE
+                    self.errorMsg = null;
+                    //  FORMAT THE DATE
                     var year = self.myDate.getFullYear();
                     var month = self.myDate.getMonth();
                     var day = self.myDate.getDate();
                     self.dateP = new Date(year, month, day, 2);
+                    $rootScope.passengersCounter = self.numberOfTickets;
 //                    end of the date
+
+                    // CHECK IF DESTINATIONS ARE PICKED FROM DROPDOWNS
+                    if ($scope.selectedTabIndex === 0) {
+                        if (self.selectedItemFrom === null || self.selectedItemTo === null) {
+                            self.errorMsg = "Please choose destinations from dropdown";
+                        }
+                    } else {
+                        if (self.selectedItemFrom === null) {
+                            self.errorMsg = "Please choose destinations from dropdown";
+                        }
+                    }
 
                     if ($scope.selectedTabIndex === 0) {
                         $http({
                             type: "GET",
-                            url: "/AngSeedServer/api/flightinfo/" + self.selectedItemFrom.IATA + "/" + self.selectedItemTo.IATA + "/" + self.dateP.toISOString() + "/" + self.numberOfTickets
+                            url: "/AngSeedServer/api/flightinfo/" + self.selectedItemFrom.IATA + "/" + self.selectedItemTo.IATA + "/" + self.dateP.toISOString() + "/" + $rootScope.passengersCounter
                         }).then(function succesCallback(response) {
 
                             $rootScope.trips = [];
@@ -50,7 +99,7 @@ angular.module('mySearchFunctionFromToModule', [])
                                 }
                             }
                             if ($rootScope.trips.length === 0) {
-                                alert("NO RESULTS");
+                                self.errorMsg = "Sorry, no results found";
                             }
                             else {
                                 window.location.href = "#/view3";
@@ -58,7 +107,7 @@ angular.module('mySearchFunctionFromToModule', [])
                         }, function errorCallback(response) {
                             self.flightlist = "No matches found";
                             $rootScope.trips = [];
-                            alert("NO RESULTS");
+                            self.errorMsg = "Sorry, something went wrong";
                         });
                     } else if ($scope.selectedTabIndex === 1) {
                         $http({
@@ -74,7 +123,7 @@ angular.module('mySearchFunctionFromToModule', [])
                                 }
                             }
                             if ($rootScope.trips.length === 0) {
-                                alert("NO RESULTS");
+                                self.errorMsg = "Sorry, no results found";
                             }
                             else {
                                 window.location.href = "#/view3";
@@ -82,10 +131,11 @@ angular.module('mySearchFunctionFromToModule', [])
                         }, function errorCallback(response) {
                             self.flightlist = "No matches found";
                             $rootScope.trips = [];
-                            alert("NO RESULTS");
+                            self.errorMsg = "Sorry, no results found";
                         });
                     }
-                };
+                }
+                ;
             }])
         .directive('searchFunctionFromToModule', function () {
             return {
