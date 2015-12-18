@@ -32,7 +32,7 @@ angular.module('myApp.view6', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
                 };
 
                 self.reserveFunctionAsJSON = function () {
-
+                    if($scope.isAdmin === true || $scope.isUser === true){
                     var res = $http.post('api/flightreservation/' + self.airline + "/"+ self.fromDestS +"/"+ self.toDestS, self.reserveTryVariable); //arline bliver taget fra uib-accorsdion information
                     res.success(function (data, status, headers, config) {
                         self.message = data;
@@ -40,7 +40,10 @@ angular.module('myApp.view6', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
                     });
                     res.error(function (data, status, headers, config) {
                     });
+                }else{
+                    alert("You have to login");
                 };
+            };
             }]);
 
 
