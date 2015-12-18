@@ -1,48 +1,56 @@
 'use strict';
-angular.module('myApp.view3', ['ngRoute','ngAnimate', 'ui.bootstrap'])
+angular.module('myApp.view3', ['ngRoute', 'ngAnimate', 'ui.bootstrap'])
         .config(['$routeProvider', function ($routeProvider) {
                 $routeProvider.when('/view3', {
                     templateUrl: 'view3/view3.html',
                     controller: 'View3Ctrl'
                 });
             }])
-        .controller('View3Ctrl', ['$scope', '$rootScope', '$http', function ($scope, $rootScope, $http) {
+        .controller('View3Ctrl', ['$scope', '$rootScope', '$uibModal', '$http', '$location', function ($scope, $rootScope, $http, $location) {
+
+
+
+
 
                 var self = this;
                 self.results = [];
                 self.results = $rootScope.trips;
-                
-                self.reserveTryVariable = ({        
-                    
-                    "numberOfSeats": 3, //Skrives ved reservering
-                    "ReserveeName": "Bubber", //Skrives ved reservering
-                    "ReservePhone": "12345678", //skrives ved reservering
+
+
+
+//                self.passengersThingy = [];
+//                self.passengersThingy.length = $rootScope.passengersCount.length;
+//                self.passengersThingy = [
+//                    {
+//                        firstName : "",
+//                        lastName : ""
+
+                self.reserveTryVariable = ({
+                    "numberOfSeats": $rootScope.passengersCounter, //tages fra søgningen
+                    "ReserveeName": self.reserveeName, //Skrives ved reservering
+                    "ReservePhone": self.reserveePhone, //skrives ved reservering
                     "ReserveeEmail": "test@test.dk", //tages fra user login
-                    "flightID": "100004", // tages fra ui-accordion information
-                    "Passengers": [ //kan tilføjes ved reservation
-                        {
-                            "firstName": "Peter", 
-                            "lastName": "Peterson"
-                        },
-                        {
-                            "firstName": "Jane",
-                            "lastName": "Peterson"
-                        }
-                    ]});
+                    "flightID": self.flightIDD, // tages fra ui-accordion information
+                    "Passengers": $rootScope.passengersCount
+                });
 
-
-                self.reserveFunctionAsJSON = function () {
-
-                    var res = $http.post('http://localhost:8080/AngSeedServer/api/flightreservation/' + self.results.airline , self.reserveTryVariable); //arline bliver taget fra uib-accorsdion information
-                    res.success(function (data, status, headers, config) {
-                        self.message = data;
-                    });
-                    res.error(function (data, status, headers, config) {
-                        alert("failure message: " + JSON.stringify({data: data}))
-                    });
-                }
-
-
-
-
+                self.toReservationPage = function (flight, airlineName, from, to) {
+                    alert("start of function");
+                    $rootScope.flightrootS = flight;
+                    $rootScope.airlineNameRoot = airlineName;
+                    $rootScope.fromDest = from;
+                    $rootScope.toDest = to;
+                    alert("rootS flightID   "+$rootScope.flightrootS);
+                    $rootScope.passengersCount = [];
+                    for (var i = 0; i < $rootScope.passengersCounter - 1; i++) {
+                        $rootScope.passengersCount.push({
+                            firstName: "",
+                            lastName: ""
+                        });
+                    }
+                    ;
+                    
+                    window.location.href = "#/view6";
+                    alert("end function");
+                };
             }]);

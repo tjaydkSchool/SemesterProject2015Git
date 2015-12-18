@@ -6,11 +6,11 @@
                 <div class="col-md-3"></div>
                 <uib-accordion-group class="resultGroup col-md-6" heading="{{result.airline}} {{res.origin}} {{res.destination}} {{res.totalPrice}}">
                     <div class="resultInformation">
-                        <p>Flight id: {{res.flightID}}</p>
+                        <p>Flight ID: {{res.flightID}}</p>
                         <p>Seats Remaining: {{res.numberOfSeats}}</p>
                         <p>Flight Date: {{res.date}}</p>
                         <p>Travel Time: {{res.travelTime}} Minutes</p>
-                        <button type="submit" ng-click="ctrl.reserveFunctionAsJSON()">Reserver</button>
+                        <button type="button" ng-click="ctrl.toReservationPage(res.flightID, result.airline, res.origin, res.destination)">Reserve</button>
                     </div>
                 </uib-accordion-group>
                 <div class="col-md-3"></div>
